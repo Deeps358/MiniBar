@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35506.116 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniBar", "MiniBar\MiniBar.csproj", "{DA48A6FC-9F3B-40CE-A8FE-2DB8B8F480AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA48A6FC-9F3B-40CE-A8FE-2DB8B8F480AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA48A6FC-9F3B-40CE-A8FE-2DB8B8F480AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA48A6FC-9F3B-40CE-A8FE-2DB8B8F480AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA48A6FC-9F3B-40CE-A8FE-2DB8B8F480AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
