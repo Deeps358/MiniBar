@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35506.116 d17.12
+VisualStudioVersion = 17.12.35506.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniBar", "MiniBar\MiniBar.csproj", "{DA48A6FC-9F3B-40CE-A8FE-2DB8B8F480AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Entities", "src\Minibar_Entities\Minibar.Entities.csproj", "{C1ADE57A-02CF-44B7-9853-90C52037AB68}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1B1D3BE7-B728-4616-B8F7-E83A38F97312}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +19,15 @@ Global
 		{DA48A6FC-9F3B-40CE-A8FE-2DB8B8F480AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA48A6FC-9F3B-40CE-A8FE-2DB8B8F480AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA48A6FC-9F3B-40CE-A8FE-2DB8B8F480AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1ADE57A-02CF-44B7-9853-90C52037AB68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1ADE57A-02CF-44B7-9853-90C52037AB68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1ADE57A-02CF-44B7-9853-90C52037AB68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1ADE57A-02CF-44B7-9853-90C52037AB68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C1ADE57A-02CF-44B7-9853-90C52037AB68} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
 	EndGlobalSection
 EndGlobal
