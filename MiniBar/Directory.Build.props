@@ -1,0 +1,22 @@
+<!--Этот файл нужен для общей настройки решения. Включили анализатор сразу всем проектам, чтоб не грузить нагет пакет по отдельности каждому-->
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnableStyleCopAnalyzers>true</EnableStyleCopAnalyzers>
+  </PropertyGroup>
+
+</Project>
