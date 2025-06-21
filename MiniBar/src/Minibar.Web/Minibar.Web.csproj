@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Minibar.Application\Minibar.Application.csproj" />
+    <ProjectReference Include="..\Minibar.Contracts\Minibar.Contracts.csproj" />
     <ProjectReference Include="..\Minibar.Controllers\Minibar.Controllers.csproj" />
     <ProjectReference Include="..\Minibar_Entities\Minibar.Entities.csproj" />
   </ItemGroup>
