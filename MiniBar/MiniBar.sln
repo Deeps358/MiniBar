@@ -12,12 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Controllers", "src\Minibar.Controllers\Minibar.Controllers.csproj", "{7AAEAEE9-7EDD-4AA1-91FF-0F847562B711}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC2810BB-267F-4F8B-A8A6-65F58BFDBC8A}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		Directory.Build.props = Directory.Build.props
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Contracts", "src\Minibar.Contracts\Minibar.Contracts.csproj", "{D9E9C9DA-7ECD-4AC5-9D8E-07F245377AF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Application", "src\Minibar.Application\Minibar.Application.csproj", "{EEFABF13-6266-457E-A336-69CA2BB39B33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +39,10 @@ Global
 		{D9E9C9DA-7ECD-4AC5-9D8E-07F245377AF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9E9C9DA-7ECD-4AC5-9D8E-07F245377AF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9E9C9DA-7ECD-4AC5-9D8E-07F245377AF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEFABF13-6266-457E-A336-69CA2BB39B33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEFABF13-6266-457E-A336-69CA2BB39B33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEFABF13-6266-457E-A336-69CA2BB39B33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEFABF13-6266-457E-A336-69CA2BB39B33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +52,6 @@ Global
 		{D6E25FE3-118A-438E-B148-3FDFBAA570FD} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
 		{7AAEAEE9-7EDD-4AA1-91FF-0F847562B711} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
 		{D9E9C9DA-7ECD-4AC5-9D8E-07F245377AF6} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
+		{EEFABF13-6266-457E-A336-69CA2BB39B33} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
 	EndGlobalSection
 EndGlobal
