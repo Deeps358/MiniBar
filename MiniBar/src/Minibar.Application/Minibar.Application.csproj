@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Minibar.Contracts\Minibar.Contracts.csproj" />
     <ProjectReference Include="..\Minibar_Entities\Minibar.Entities.csproj" />
   </ItemGroup>
 
