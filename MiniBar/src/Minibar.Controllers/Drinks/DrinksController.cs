@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Minibar.Application.Drinks;
 using Minibar.Contracts.Drinks;
 
 namespace Minibar.Controllers.Drinks
@@ -7,6 +8,13 @@ namespace Minibar.Controllers.Drinks
     [Route("[controller]")]
     public class DrinksController : ControllerBase
     {
+        private readonly IDrinksService _drinksService;
+
+        public DrinksController(IDrinksService drinksService)
+        {
+            _drinksService = drinksService;
+        }
+
         [HttpGet]
         public async Task<IActionResult> Find([FromQuery] FindDrinkDTO getDrinkDTO, CancellationToken cancellationToken)
         {
@@ -22,7 +30,8 @@ namespace Minibar.Controllers.Drinks
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateDrinkDTO createDrinkDTO, CancellationToken cancellationToken)
         {
-            return Ok("Drink added");
+            var drinkId = await _drinksService.Create(createDrinkDTO, cancellationToken);
+            return Ok(drinkId);
         }
 
         [HttpPut("{drinkId:guid}")]
