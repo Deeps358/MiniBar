@@ -17,26 +17,26 @@ namespace Minibar.Entities.Drinks
             Guid categoryId,
             IEnumerable<Guid> tags)
         {
-            Id = id;
-            Name = name;
-            Description = description;
-            UserId = userId;
-            CategoryId = categoryId;
-            Tags = tags.ToList();
+            this.id = id;
+            this.name = name;
+            this.description = description;
+            this.userId = userId;
+            this.categoryId = categoryId;
+            this.tags = tags.ToList();
         }
 
-        public Guid Id { get; set; }
+        public Guid id { get; set; }
 
-        public string Name { get; set; }
+        public string name { get; set; }
 
-        public string Description { get; set; } = string.Empty;
+        public string description { get; set; } = string.Empty;
 
-        public Guid UserId { get; set; }
+        public Guid userId { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public Guid categoryId { get; set; }
 
-        public List<Guid> Tags { get; set; }
+        public IEnumerable<Guid> tags { get; set; } = Enumerable.Empty<Guid>();
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime createdAt { get; set; }
     }
 }
