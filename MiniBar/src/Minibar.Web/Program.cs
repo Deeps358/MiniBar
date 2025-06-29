@@ -1,4 +1,11 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.EntityFrameworkCore;
+using Minibar.Web;
+using System;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddProgramDependencies(builder.Configuration);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

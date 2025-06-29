@@ -15,6 +15,6 @@ namespace Minibar.Application.Drinks
 
         Task<Guid> DeleteAsync(Guid drinkId, CancellationToken cancellationToken);
 
-        Task<Drink> GetByIdAsync(Guid drinkId, CancellationToken cancellationToken);
+        Task<Drink?> GetByIdAsync(Guid drinkId, CancellationToken cancellationToken);
     }
 }

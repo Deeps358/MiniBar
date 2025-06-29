@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Contracts", "src\Mi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Application", "src\Minibar.Application\Minibar.Application.csproj", "{EEFABF13-6266-457E-A336-69CA2BB39B33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Infrastructure.PostgreSQL", "src\Minibar.Infrastructure.PostgreSQL\Minibar.Infrastructure.PostgreSQL.csproj", "{D189462A-1505-47D6-B11D-3D8583F8149F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{EEFABF13-6266-457E-A336-69CA2BB39B33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEFABF13-6266-457E-A336-69CA2BB39B33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEFABF13-6266-457E-A336-69CA2BB39B33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D189462A-1505-47D6-B11D-3D8583F8149F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D189462A-1505-47D6-B11D-3D8583F8149F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D189462A-1505-47D6-B11D-3D8583F8149F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D189462A-1505-47D6-B11D-3D8583F8149F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +59,6 @@ Global
 		{7AAEAEE9-7EDD-4AA1-91FF-0F847562B711} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
 		{D9E9C9DA-7ECD-4AC5-9D8E-07F245377AF6} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
 		{EEFABF13-6266-457E-A336-69CA2BB39B33} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
+		{D189462A-1505-47D6-B11D-3D8583F8149F} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
 	EndGlobalSection
 EndGlobal

@@ -38,10 +38,10 @@ namespace Minibar.Application.Drinks
             var drink = new Drink(
                 drinkId,
                 drinkDTO.Name,
-                drinkDTO.Desription,
+                drinkDTO.Description,
                 drinkDTO.UserId,
                 drinkDTO.CategoryId,
-                drinkDTO.TagIds);
+                drinkDTO.TagsIds);
 
             // Сохранить её в БД
             await _drinksRepository.CreateAsync(drink, cancellationToken);
