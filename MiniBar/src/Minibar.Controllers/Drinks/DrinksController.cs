@@ -24,7 +24,7 @@ namespace Minibar.Controllers.Drinks
         [HttpGet("{drinkId:guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid drinkId, CancellationToken cancellationToken)
         {
-            return Ok("Drink got");
+            return Ok("Drink got, hold it");
         }
 
         [HttpPost]
