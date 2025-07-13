@@ -20,7 +20,7 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             _configuration = configuration;
         }
 
-        public async Task<Guid> CreateAsync(Drink drink, CancellationToken cancellationToken)
+        public async Task<int> CreateAsync(Drink drink, CancellationToken cancellationToken)
         {
             const string sql = """
                 INSERT INTO drinks (name, description, user_id, category_id, tags)
@@ -47,10 +47,12 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Drink?> GetByIdAsync(Guid drinkId, CancellationToken cancellationToken)
+        public Task<Drink?> GetByIdAsync(int drinkId, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
+
+        public Task<Drink?> GetByNameAsync(string name, CancellationToken cancellationToken) => throw new NotImplementedException();
 
         public Task<Guid> UpdateAsync(Drink drink, CancellationToken cancellationToken)
         {
