@@ -23,7 +23,7 @@ namespace Minibar.Application.Drinks
             _logger = logger;
         }
 
-        public async Task<Guid> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken)
+        public async Task<int> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken)
         {
             // Проверить валидность входных данных (с помощью либы FluentValidation)
             var validationResult = await _validator.ValidateAsync(drinkDTO, cancellationToken);
@@ -37,11 +37,16 @@ namespace Minibar.Application.Drinks
 
             // здесь можно воткнуть валидацию именно бизнес логики
 
+            var nameResult = await _drinksRepository.GetByNameAsync(drinkDTO.Name, cancellationToken);
+            if (nameResult != null)
+            {
+                _logger.LogInformation("Такой напиток уже есть!");
+                throw new Exception("Такой напиток уже есть!");
+            }
+
             // Создать сущность Drink
-            var drinkId = Guid.NewGuid();
 
             var drink = new Drink(
-                drinkId,
                 drinkDTO.Name,
                 drinkDTO.Description,
                 drinkDTO.UserId,
@@ -49,7 +54,7 @@ namespace Minibar.Application.Drinks
                 drinkDTO.TagsIds);
 
             // Сохранить её в БД
-            await _drinksRepository.CreateAsync(drink, cancellationToken);
+            int drinkId = await _drinksRepository.CreateAsync(drink, cancellationToken);
 
             // Залогировать результат (успех или не очень)
             _logger.LogInformation("Drink created with id {drinkId}", drinkId);
