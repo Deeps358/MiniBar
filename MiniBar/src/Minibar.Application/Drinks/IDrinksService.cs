@@ -4,6 +4,6 @@ namespace Minibar.Application.Drinks
 {
     public interface IDrinksService
     {
-        Task<Guid> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken);
+        Task<int> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken);
     }
 }

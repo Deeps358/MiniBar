@@ -10,14 +10,12 @@ namespace Minibar.Entities.Drinks
     public class Drink
     {
         public Drink(
-            Guid id,
             string name,
             string description,
             Guid userId,
             Guid categoryId,
             IEnumerable<Guid> tags)
         {
-            this.id = id;
             this.name = name;
             this.description = description;
             this.userId = userId;
@@ -25,7 +23,7 @@ namespace Minibar.Entities.Drinks
             this.tags = tags.ToList();
         }
 
-        public Guid id { get; set; }
+        public int id { get; set; }
 
         public string name { get; set; }
 

@@ -13,7 +13,7 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             _drinksDbContext = drinksDbContext;
         }
 
-        public async Task<Guid> CreateAsync(Drink drink, CancellationToken cancellationToken)
+        public async Task<int> CreateAsync(Drink drink, CancellationToken cancellationToken)
         {
             await _drinksDbContext.Drinks.AddAsync(drink, cancellationToken);
             await _drinksDbContext.SaveChangesAsync(cancellationToken);
@@ -25,9 +25,15 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<Drink?> GetByIdAsync(Guid drinkId, CancellationToken cancellationToken)
+        public async Task<Drink?> GetByIdAsync(int drinkId, CancellationToken cancellationToken)
         {
             var drink = await _drinksDbContext.Drinks.FirstOrDefaultAsync(d => d.id == drinkId, cancellationToken);
+            return drink;
+        }
+
+        public async Task<Drink?> GetByNameAsync(string name, CancellationToken cancellationToken)
+        {
+            var drink = await _drinksDbContext.Drinks.FirstOrDefaultAsync(d => d.name == name, cancellationToken);
             return drink;
         }
 
