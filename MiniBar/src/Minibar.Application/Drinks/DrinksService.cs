@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
+using Minibar.Application.Drinks.Exceptions;
 using Minibar.Contracts.Drinks;
 using Minibar.Entities.Drinks;
+using Shared;
 
 namespace Minibar.Application.Drinks
 {
@@ -27,7 +29,10 @@ namespace Minibar.Application.Drinks
             var validationResult = await _validator.ValidateAsync(drinkDTO, cancellationToken);
             if (!validationResult.IsValid)
             {
-                throw new ValidationException(validationResult.Errors);
+                var errors = validationResult.Errors.Select(e => Error.NotValid(
+                    e.ErrorCode, e.ErrorMessage, e.PropertyName)).ToArray();
+
+                throw new DrinkValidationException(errors);
             }
 
             // здесь можно воткнуть валидацию именно бизнес логики

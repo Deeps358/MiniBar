@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Minibar.Contracts\Minibar.Contracts.csproj" />
     <ProjectReference Include="..\Minibar_Entities\Minibar.Entities.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>
