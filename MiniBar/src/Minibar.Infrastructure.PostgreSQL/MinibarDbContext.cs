@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Minibar.Entities.Drinks;
-using System;
+using Minibar.Entities.Users;
 
 namespace Minibar.Infrastructure.PostgreSQL
 {
-    public class DrinksDbContext : DbContext
+    public class MinibarDbContext : DbContext
     {
         public DbSet<Drink> Drinks { get; set; } // DbSet в efcore это реализация паттерна Repository и UnitOfWork(?)
 
-        public DrinksDbContext(DbContextOptions<DrinksDbContext> options)
+        public DbSet<User> Users { get; set; }
+
+        public MinibarDbContext(DbContextOptions<MinibarDbContext> options)
             : base(options)
         {
         }
@@ -18,6 +20,7 @@ namespace Minibar.Infrastructure.PostgreSQL
             // Настройка модели базы данных, если необходимо
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Drink>().ToTable("Drinks");
+            modelBuilder.Entity<User>().ToTable("Users");
         }
     }
 }

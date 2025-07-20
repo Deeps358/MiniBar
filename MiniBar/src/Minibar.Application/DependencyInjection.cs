@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Minibar.Application.Drinks;
+using Minibar.Application.Users;
 
 namespace Minibar.Application
 {
@@ -11,6 +12,7 @@ namespace Minibar.Application
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
             services.AddScoped<IDrinksService, DrinksService>();
+            services.AddScoped<IUsersService, UsersService>();
 
             return services;
         }

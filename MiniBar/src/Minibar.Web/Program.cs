@@ -8,6 +8,8 @@ builder.Services.AddProgramDependencies(builder.Configuration);
 
 var app = builder.Build();
 
+app.Services.AddBuildDependencies();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
