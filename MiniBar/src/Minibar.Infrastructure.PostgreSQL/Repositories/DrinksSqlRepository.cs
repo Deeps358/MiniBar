@@ -31,15 +31,15 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
 
             await connection.ExecuteAsync(sql, new
             {
-                Id = drink.id,
-                Name = drink.name,
-                Description = drink.description,
-                UserId = drink.userId,
-                CategoryId = drink.categoryId,
-                Tags = drink.tags,
+                Id = drink.Id,
+                Name = drink.Name,
+                Description = drink.Description,
+                UserId = drink.UserId,
+                CategoryId = drink.CategoryId,
+                Tags = drink.Tags,
             });
 
-            return drink.id;
+            return drink.Id;
         }
 
         public Task<Guid> DeleteAsync(Guid drinkId, CancellationToken cancellationToken)

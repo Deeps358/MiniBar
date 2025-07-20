@@ -15,32 +15,32 @@ namespace Minibar.Controllers.Drinks
             _drinksService = drinksService;
         }
 
-        [HttpGet]
+        [HttpGet("Find")]
         public async Task<IActionResult> Find([FromQuery] FindDrinkDTO getDrinkDTO, CancellationToken cancellationToken)
         {
             return Ok("Drink found");
         }
 
-        [HttpGet("{drinkId:guid}")]
-        public async Task<IActionResult> GetById([FromRoute] Guid drinkId, CancellationToken cancellationToken)
+        [HttpGet("GetById{drinkId:int}")]
+        public async Task<IActionResult> GetById([FromRoute] int drinkId, CancellationToken cancellationToken)
         {
             return Ok("Drink got, hold it");
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] CreateDrinkDTO createDrinkDTO, CancellationToken cancellationToken)
         {
             var drinkId = await _drinksService.Create(createDrinkDTO, cancellationToken);
             return Ok(drinkId);
         }
 
-        [HttpPut("{drinkId:guid}")]
+        [HttpPut("Update{drinkId:int}")]
         public async Task<IActionResult> Update([FromRoute] Guid drinkId, [FromBody] UpdateDrinkDTO updateDrinkDTO, CancellationToken cancellationToken)
         {
             return Ok("Drink updated");
         }
 
-        [HttpDelete("{drinkId:guid}")]
+        [HttpDelete("Delete{drinkId:int}")]
         public async Task<IActionResult> Delete([FromRoute] Guid drinkId, CancellationToken cancellationToken)
         {
             return Ok("Drink removed");
