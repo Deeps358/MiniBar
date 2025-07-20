@@ -1,4 +1,4 @@
 ﻿namespace Minibar.Contracts.Drinks
 {
-    public record FindDrinkDTO(string Name, Guid[] TagIds);
+    public record FindDrinkDTO(string Name, int[] TagIds);
 }

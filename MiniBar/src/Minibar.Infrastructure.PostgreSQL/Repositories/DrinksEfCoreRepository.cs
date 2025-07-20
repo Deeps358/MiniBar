@@ -6,18 +6,18 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
 {
     public class DrinksEfCoreRepository : IDrinksRepository
     {
-        private readonly DrinksDbContext _drinksDbContext;
+        private readonly MinibarDbContext _minibarDbContext;
 
-        public DrinksEfCoreRepository(DrinksDbContext drinksDbContext)
+        public DrinksEfCoreRepository(MinibarDbContext minibarDbContext)
         {
-            _drinksDbContext = drinksDbContext;
+            _minibarDbContext = minibarDbContext;
         }
 
         public async Task<int> CreateAsync(Drink drink, CancellationToken cancellationToken)
         {
-            await _drinksDbContext.Drinks.AddAsync(drink, cancellationToken);
-            await _drinksDbContext.SaveChangesAsync(cancellationToken);
-            return drink.id;
+            await _minibarDbContext.Drinks.AddAsync(drink, cancellationToken);
+            await _minibarDbContext.SaveChangesAsync(cancellationToken);
+            return drink.Id;
         }
 
         public async Task<Guid> DeleteAsync(Guid drinkId, CancellationToken cancellationToken)
@@ -27,13 +27,13 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
 
         public async Task<Drink?> GetByIdAsync(int drinkId, CancellationToken cancellationToken)
         {
-            var drink = await _drinksDbContext.Drinks.FirstOrDefaultAsync(d => d.id == drinkId, cancellationToken);
+            var drink = await _minibarDbContext.Drinks.FirstOrDefaultAsync(d => d.Id == drinkId, cancellationToken);
             return drink;
         }
 
         public async Task<Drink?> GetByNameAsync(string name, CancellationToken cancellationToken)
         {
-            var drink = await _drinksDbContext.Drinks.FirstOrDefaultAsync(d => d.name == name, cancellationToken);
+            var drink = await _minibarDbContext.Drinks.FirstOrDefaultAsync(d => d.Name == name, cancellationToken);
             return drink;
         }
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Minibar.Entities.Drinks
+﻿namespace Minibar.Entities.Drinks
 {
     // анемичная модель
     public class Drink
@@ -12,29 +6,29 @@ namespace Minibar.Entities.Drinks
         public Drink(
             string name,
             string description,
-            Guid userId,
-            Guid categoryId,
-            IEnumerable<Guid> tags)
+            int userId,
+            int categoryId,
+            IEnumerable<int> tags)
         {
-            this.name = name;
-            this.description = description;
-            this.userId = userId;
-            this.categoryId = categoryId;
-            this.tags = tags.ToList();
+            Name = name;
+            Description = description;
+            UserId = userId;
+            CategoryId = categoryId;
+            Tags = tags.ToList();
         }
 
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public string description { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
 
-        public Guid userId { get; set; }
+        public int UserId { get; set; }
 
-        public Guid categoryId { get; set; }
+        public int CategoryId { get; set; }
 
-        public IEnumerable<Guid> tags { get; set; } = Enumerable.Empty<Guid>();
+        public IEnumerable<int> Tags { get; set; } = Enumerable.Empty<int>();
 
-        public DateTime createdAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
