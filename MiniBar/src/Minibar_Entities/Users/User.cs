@@ -2,12 +2,12 @@
 {
     public class User
     {
-        public User(string userName, string passwordHash, string email, int roleid)
+        public User(string userName, string passwordHash, string email, int roleId)
         {
             UserName = userName;
             PasswordHash = passwordHash;
             Email = email;
-            RoleId = roleid;
+            RoleId = roleId;
         }
 
         public int Id { get; set; }

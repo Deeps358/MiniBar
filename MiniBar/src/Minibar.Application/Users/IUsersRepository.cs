@@ -12,6 +12,8 @@ namespace Minibar.Application.Users
 
         Task<User?> GetByIdAsync(int userId, CancellationToken cancellationToken);
 
-        Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken);
+        Task<User?> GetByUserNameAsync(string userName, CancellationToken cancellationToken);
+
+        Task<string> GetRoleByIdAsync(int roleId, CancellationToken cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Minibar.Application;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Minibar.Application;
 using Minibar.Infrastructure.PostgreSQL;
 
 namespace Minibar.Web
@@ -12,6 +13,7 @@ namespace Minibar.Web
             services.AddWebDependencies(); // то, что было по умолчанию в Program
             services.AddApplication(); // это уже то что добавил я
             services.AddPostgresInfrastructure(configuration); // сервис для БД
+            services.AddCookieAuth(); // куки аутентификация
 
             return services;
         }
@@ -29,6 +31,50 @@ namespace Minibar.Web
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             services.AddOpenApi();
+
+            return services;
+        }
+
+        private static IServiceCollection AddCookieAuth(this IServiceCollection services)
+        {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(1); // Точное время жизни 1 минута
+                    options.SlidingExpiration = false; // Отключаем автопродление
+
+                    // Полностью отключаем редиректы для API
+                    options.Events = new CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = context =>
+                        {
+                            context.Response.StatusCode = 401;
+                            context.Response.ContentType = "application/json";
+                            return context.Response.WriteAsJsonAsync(new
+                            {
+                                error = "Unauthorized",
+                                message = "Сначала залогиньтесь",
+                            });
+                        },
+                        OnRedirectToAccessDenied = context =>
+                        {
+                            context.Response.StatusCode = 403;
+                            context.Response.ContentType = "application/json";
+                            return context.Response.WriteAsJsonAsync(new
+                            {
+                                error = "Forbidden",
+                                message = "Тебе сюда нельзя",
+                            });
+                        },
+                    };
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Администратор"));
+            });
+
+            services.AddHttpContextAccessor(); // контекст для авторизации
 
             return services;
         }

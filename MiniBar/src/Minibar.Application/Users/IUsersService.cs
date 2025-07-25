@@ -7,5 +7,8 @@ namespace Minibar.Application.Users
         Task<int> Create(CreateUserDTO userDTO, CancellationToken cancellationToken);
 
         Task<int> Login(LoginUserDTO userDTO, CancellationToken cancellationToken);
+
+        Task<string> Logout(CancellationToken cancellationToken);
+        Task<string> WhoIAm(CancellationToken cancellationToken);
     }
 }
