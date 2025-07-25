@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Minibar.Web;
-using System;
+﻿using Minibar.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +17,8 @@ if (app.Environment.IsDevelopment())
 
 // app.UseHttpsRedirection();
 
-// app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

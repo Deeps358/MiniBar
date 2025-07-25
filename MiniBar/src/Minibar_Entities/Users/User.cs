@@ -2,11 +2,12 @@
 {
     public class User
     {
-        public User(string userName, string passwordHash, string email)
+        public User(string userName, string passwordHash, string email, int roleid)
         {
             UserName = userName;
             PasswordHash = passwordHash;
             Email = email;
+            RoleId = roleid;
         }
 
         public int Id { get; set; }
@@ -17,6 +18,6 @@
 
         public string Email { get; set; }
 
-        public int GroupId { get; set; }
+        public int RoleId { get; set; }
     }
 }

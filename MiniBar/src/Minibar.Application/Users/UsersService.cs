@@ -42,7 +42,8 @@ namespace Minibar.Application.Users
             var user = new User(
                 userDTO.UserName,
                 hashedPassword,
-                userDTO.Email);
+                userDTO.Email,
+                userDTO.RoleId);
 
             int userId = await _usersRepository.CreateAsync(user, cancellationToken);
 
