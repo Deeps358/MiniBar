@@ -26,8 +26,8 @@ namespace Minibar.Application.Users
 
             // проверить что такой почты ещё нет
 
-            var getUserByUsername = await _usersRepository.GetByEmailAsync(userDTO.Email, cancellationToken);
-            if (getUserByUsername != null)
+            var getUserByEmail = await _usersRepository.GetByEmailAsync(userDTO.Email, cancellationToken);
+            if (getUserByEmail != null)
             {
                 throw new Exception("Пользователь с таким мылом уже есть!");
             }
@@ -47,6 +47,30 @@ namespace Minibar.Application.Users
             int userId = await _usersRepository.CreateAsync(user, cancellationToken);
 
             return userId;
+        }
+
+        public async Task<int> Login(LoginUserDTO loginUserDTO, CancellationToken cancellationToken)
+        {
+            var getUserByEmail = await _usersRepository.GetByEmailAsync(loginUserDTO.Email, cancellationToken);
+            if (getUserByEmail == null)
+            {
+                throw new Exception("Пользователя с таким мылом нет!");
+            }
+
+            var hasher = new PasswordHasher<string>();
+            var passwordChecker = hasher.VerifyHashedPassword(null, getUserByEmail.PasswordHash, loginUserDTO.Password);
+            if (passwordChecker == PasswordVerificationResult.Success)
+            {
+                return getUserByEmail.Id;
+            }
+            else if (passwordChecker == PasswordVerificationResult.SuccessRehashNeeded)
+            {
+                throw new Exception("Вам надо обновить пароль!");
+            }
+            else
+            {
+                throw new Exception("Неправильный пароль!");
+            }
         }
     }
 }

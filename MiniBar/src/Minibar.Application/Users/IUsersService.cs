@@ -5,5 +5,7 @@ namespace Minibar.Application.Users
     public interface IUsersService
     {
         Task<int> Create(CreateUserDTO userDTO, CancellationToken cancellationToken);
+
+        Task<int> Login(LoginUserDTO userDTO, CancellationToken cancellationToken);
     }
 }
