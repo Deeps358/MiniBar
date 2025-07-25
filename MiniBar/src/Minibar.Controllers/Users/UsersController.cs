@@ -21,5 +21,12 @@ namespace Minibar.Controllers.Users
             var userId = await _usersService.Create(createUserDTO, cancellationToken);
             return Ok(userId);
         }
+
+        [HttpGet("Login")]
+        public async Task<IActionResult> Login([FromQuery] LoginUserDTO loginUserDTO, CancellationToken cancellationToken)
+        {
+            var userId = await _usersService.Login(loginUserDTO, cancellationToken);
+            return Ok(userId);
+        }
     }
 }
