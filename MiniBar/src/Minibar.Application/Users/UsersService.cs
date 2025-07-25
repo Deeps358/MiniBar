@@ -1,4 +1,8 @@
-﻿using FluentValidation;
+﻿using System.Security.Claims;
+using FluentValidation;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Minibar.Application.Drinks;
@@ -10,14 +14,17 @@ namespace Minibar.Application.Users
     public class UsersService : IUsersService
     {
         private readonly IUsersRepository _usersRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<DrinksService> _logger;
 
         public UsersService(
             IUsersRepository usersRepository,
-            ILogger<DrinksService> logger)
+            ILogger<DrinksService> logger,
+            IHttpContextAccessor httpContextAccessor)
         {
             _usersRepository = usersRepository;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<int> Create(CreateUserDTO userDTO, CancellationToken cancellationToken)
@@ -26,8 +33,8 @@ namespace Minibar.Application.Users
 
             // проверить что такой почты ещё нет
 
-            var getUserByEmail = await _usersRepository.GetByEmailAsync(userDTO.Email, cancellationToken);
-            if (getUserByEmail != null)
+            var getUser = await _usersRepository.GetByUserNameAsync(userDTO.UserName, cancellationToken);
+            if (getUser != null)
             {
                 throw new Exception("Пользователь с таким мылом уже есть!");
             }
@@ -52,17 +59,37 @@ namespace Minibar.Application.Users
 
         public async Task<int> Login(LoginUserDTO loginUserDTO, CancellationToken cancellationToken)
         {
-            var getUserByEmail = await _usersRepository.GetByEmailAsync(loginUserDTO.Email, cancellationToken);
-            if (getUserByEmail == null)
+            var getUser = await _usersRepository.GetByUserNameAsync(loginUserDTO.UserName, cancellationToken);
+            if (getUser == null)
             {
                 throw new Exception("Пользователя с таким мылом нет!");
             }
 
             var hasher = new PasswordHasher<string>();
-            var passwordChecker = hasher.VerifyHashedPassword(null, getUserByEmail.PasswordHash, loginUserDTO.Password);
+            var passwordChecker = hasher.VerifyHashedPassword(null, getUser.PasswordHash, loginUserDTO.Password);
             if (passwordChecker == PasswordVerificationResult.Success)
             {
-                return getUserByEmail.Id;
+                string userRoleName = await _usersRepository.GetRoleByIdAsync(getUser.RoleId, cancellationToken);
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, getUser.UserName),
+                    new Claim(ClaimTypes.Role, userRoleName), // Например, "Admin" или "User"
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                await _httpContextAccessor.HttpContext?.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    principal,
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = true // Куки сохраняются после закрытия браузера
+                    }
+                );
+
+                return getUser.Id;
             }
             else if (passwordChecker == PasswordVerificationResult.SuccessRehashNeeded)
             {
@@ -72,6 +99,18 @@ namespace Minibar.Application.Users
             {
                 throw new Exception("Неправильный пароль!");
             }
+        }
+
+        public async Task<string> Logout(CancellationToken cancellationToken)
+        {
+            await _httpContextAccessor.HttpContext?.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return "Вы успешно вышли из системы!";
+        }
+
+        public async Task<string> WhoIAm(CancellationToken cancellationToken)
+        {
+            string myName = _httpContextAccessor.HttpContext?.User.Identity?.Name;
+            return $"Вы залогинены как {myName}";
         }
     }
 }

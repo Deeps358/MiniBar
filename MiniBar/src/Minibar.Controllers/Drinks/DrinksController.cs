@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Minibar.Application.Drinks;
 using Minibar.Contracts.Drinks;
 
@@ -28,6 +29,7 @@ namespace Minibar.Controllers.Drinks
         }
 
         [HttpPost("Create")]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateDrinkDTO createDrinkDTO, CancellationToken cancellationToken)
         {
             var drinkId = await _drinksService.Create(createDrinkDTO, cancellationToken);
@@ -35,12 +37,14 @@ namespace Minibar.Controllers.Drinks
         }
 
         [HttpPut("Update{drinkId:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] Guid drinkId, [FromBody] UpdateDrinkDTO updateDrinkDTO, CancellationToken cancellationToken)
         {
             return Ok("Drink updated");
         }
 
         [HttpDelete("Delete{drinkId:int}")]
+        [Authorize(Roles = "Администратор")] // Только пользователи с ролью "Admin"
         public async Task<IActionResult> Delete([FromRoute] Guid drinkId, CancellationToken cancellationToken)
         {
             return Ok("Drink removed");

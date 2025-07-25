@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Minibar.Application.Users;
-using Minibar.Entities.Drinks;
 using Minibar.Entities.Users;
 
 namespace Minibar.Infrastructure.PostgreSQL.Repositories
@@ -23,14 +22,20 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
 
         public async Task<int> DeleteAsync(int userId, CancellationToken cancellationToken) => throw new NotImplementedException();
 
+        public async Task<Guid> UpdateAsync(User user, CancellationToken cancellationToken) => throw new NotImplementedException();
+
         public async Task<User?> GetByIdAsync(int userId, CancellationToken cancellationToken) => throw new NotImplementedException();
 
-        public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
+        public async Task<User?> GetByUserNameAsync(string userName, CancellationToken cancellationToken)
         {
-            var user = await _minibarDbContext.Users.FirstOrDefaultAsync(d => d.Email == email, cancellationToken);
+            var user = await _minibarDbContext.Users.FirstOrDefaultAsync(d => d.UserName == userName, cancellationToken);
             return user;
         }
 
-        public async Task<Guid> UpdateAsync(User user, CancellationToken cancellationToken) => throw new NotImplementedException();
+        public async Task<string> GetRoleByIdAsync(int roleId, CancellationToken cancellationToken)
+        {
+            var role = await _minibarDbContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId, cancellationToken);
+            return role.RoleName;
+        }
     }
 }
