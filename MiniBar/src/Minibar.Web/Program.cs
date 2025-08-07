@@ -1,10 +1,13 @@
 ﻿using Minibar.Web;
+using Minibar.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddProgramDependencies(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseExceptionMiddleware(); // свой extension метод
 
 app.Services.AddBuildDependencies();
 

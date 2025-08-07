@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using Minibar.Contracts.Drinks;
 
 namespace Minibar.Application.Drinks
@@ -12,9 +7,16 @@ namespace Minibar.Application.Drinks
     {
         public CreateDrinkValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage("Пустой или длинный (50) заголовок");
-            RuleFor(x => x.Description).NotEmpty().MaximumLength(500).WithMessage("Пустое или длинное (500) описание");
-            RuleFor(x => x.UserId).NotEmpty();
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage("Название напитка должно быть заполнено!")
+                .MaximumLength(50).WithMessage("Пустой или длинный (50) заголовок");
+
+            RuleFor(x => x.Description)
+                .NotEmpty().WithMessage("Описание напитка должно быть заполнено!")
+                .MaximumLength(500).WithMessage("Пустое или длинное (500) описание");
+
+            RuleFor(x => x.UserId)
+                .NotEmpty();
         }
     }
 }

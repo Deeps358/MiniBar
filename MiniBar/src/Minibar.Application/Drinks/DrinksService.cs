@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
-using Minibar.Application.Drinks.Exceptions;
+using Minibar.Application.Drinks.Failures;
+using Minibar.Application.Drinks.Failures.Exceptions;
+using Minibar.Application.Extensions;
 using Minibar.Contracts.Drinks;
 using Minibar.Entities.Drinks;
 using Shared;
@@ -29,23 +31,18 @@ namespace Minibar.Application.Drinks
             var validationResult = await _validator.ValidateAsync(drinkDTO, cancellationToken);
             if (!validationResult.IsValid)
             {
-                var errors = validationResult.Errors.Select(e => Error.NotValid(
-                    e.ErrorCode, e.ErrorMessage, e.PropertyName)).ToArray();
-
-                throw new DrinkValidationException(errors);
+                throw new DrinkValidationException(validationResult.ToErrors()); // Extension метод
             }
 
-            // здесь можно воткнуть валидацию именно бизнес логики
-
+            // здесь валидация именно бизнес логики
             var nameResult = await _drinksRepository.GetByNameAsync(drinkDTO.Name, cancellationToken);
             if (nameResult != null)
             {
-                _logger.LogInformation("Такой напиток уже есть!");
-                throw new Exception("Такой напиток уже есть!");
+                _logger.LogInformation("Попытка добавить существующий напиток!");
+                throw new DrinkAlreadyExistException([Errors.Drinks.DrinkAlreadyExist()]);
             }
 
             // Создать сущность Drink
-
             var drink = new Drink(
                 drinkDTO.Name,
                 drinkDTO.Description,
