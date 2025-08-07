@@ -1,13 +1,17 @@
-﻿using System.Security.Claims;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Minibar.Application.Drinks;
+using Minibar.Application.Extensions;
+using Minibar.Application.Users.Failures;
+using Minibar.Application.Users.Failures.Exceptions;
 using Minibar.Contracts.Users;
 using Minibar.Entities.Users;
+using Shared;
+using System.Security.Claims;
 
 namespace Minibar.Application.Users
 {
@@ -15,43 +19,51 @@ namespace Minibar.Application.Users
     {
         private readonly IUsersRepository _usersRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IValidator<CreateUserDTO> _validator;
         private readonly ILogger<DrinksService> _logger;
 
         public UsersService(
             IUsersRepository usersRepository,
             ILogger<DrinksService> logger,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IValidator<CreateUserDTO> validator)
         {
             _usersRepository = usersRepository;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
+            _validator = validator;
         }
 
         public async Task<int> Create(CreateUserDTO userDTO, CancellationToken cancellationToken)
         {
-            // валидация (попозже)
+            // валидация
+            var validationResult = await _validator.ValidateAsync(userDTO, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new UserValidationException(validationResult.ToErrors()); // Extension метод
+            }
 
             // проверить что такой почты ещё нет
-
             var getUser = await _usersRepository.GetByUserNameAsync(userDTO.UserName, cancellationToken);
             if (getUser != null)
             {
-                throw new Exception("Пользователь с таким мылом уже есть!");
+                throw new UserAlreadyExistsException([Errors.Users.UserAlreadyExist()]);
             }
 
-            // обработка пароля
+            // TODO: проверить что такая роль есть
 
+            // обработка пароля
             var hasher = new PasswordHasher<string>();
             string hashedPassword = hasher.HashPassword(null, userDTO.Password);
 
             // создание сущности
-
             var user = new User(
                 userDTO.UserName,
                 hashedPassword,
                 userDTO.Email,
                 userDTO.RoleId);
 
+            // сохраняем в БД
             int userId = await _usersRepository.CreateAsync(user, cancellationToken);
 
             return userId;
