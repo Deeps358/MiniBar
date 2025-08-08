@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Web", "src\Minibar.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Controllers", "src\Minibar.Controllers\Minibar.Controllers.csproj", "{7AAEAEE9-7EDD-4AA1-91FF-0F847562B711}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC2810BB-267F-4F8B-A8A6-65F58BFDBC8A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Contracts", "src\Minibar.Contracts\Minibar.Contracts.csproj", "{D9E9C9DA-7ECD-4AC5-9D8E-07F245377AF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minibar.Application", "src\Minibar.Application\Minibar.Application.csproj", "{EEFABF13-6266-457E-A336-69CA2BB39B33}"
@@ -67,5 +65,8 @@ Global
 		{EEFABF13-6266-457E-A336-69CA2BB39B33} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
 		{D189462A-1505-47D6-B11D-3D8583F8149F} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
 		{F915367D-A9AE-4ABD-A819-8FB31FD6822B} = {1B1D3BE7-B728-4616-B8F7-E83A38F97312}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {588CC1F8-92DD-44BC-B6C0-E2B6581E2946}
 	EndGlobalSection
 EndGlobal
