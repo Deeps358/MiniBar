@@ -1,42 +1,188 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* App.css */
+:root {
+    /* Цветовая схема */
+    --header-bg: linear-gradient(135deg, #1a3a1a 0%, #0d1f0d 100%);
+    --main-bg: #001707;
+    --accent-color: #4CAF50;
+    --text-light: #e0e0e0;
+    --strip-height: 5px; /* Высота разделительных полосок */
+
+    /* Дополнительные акценты */
+    --nav-border: rgba(76, 175, 80, 0.3);
+    --user-bg: rgba(76, 175, 80, 0.1);
 }
 
+/* Базовые стили */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Главный контейнер */
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--main-bg);
+    color: var(--text-light);
+    position: relative;
+}
+
+/* Шапка */
+.header {
+    background: var(--header-bg);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Полоска ПОД header (цвет body) */
+.header::after {
+    content: "";
+    position: absolute;
+    bottom: calc(-1 * var(--strip-height));
+    left: 0;
+    width: 100%;
+    height: var(--strip-height);
+    background: var(--main-bg);
+    z-index: 9;
+}
+
+/* Полоска под первой полоской (цвет header) */
+.header::before {
+    content: "";
+    position: absolute;
+    bottom: calc(-2 * var(--strip-height));
+    left: 0;
+    width: 100%;
+    height: var(--strip-height);
+    background: var(--header-bg);
+    z-index: 8;
+}
+
+/* Декоративные элементы */
+.header-decoration {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+    );
+}
+
+/* Логотип */
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+    font-size: 1.8rem;
+    font-weight: 700;
+    padding: 0.8rem 1.5rem;
+    background: var(--main-bg);
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    position: relative;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.logo::after {
+    content: "🍸";
+    position: absolute;
+    filter: drop-shadow(0 0 5px var(--accent-color));
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Навигация */
+.nav {
+    display: flex;
+    gap: 1.5rem;
+    background: var(--main-bg);
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    border: 2px solid var(--nav-border);
+    backdrop-filter: blur(5px);
+    box-shadow:
+            0 4px 6px rgba(0, 0, 0, 0.1),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-.card {
-  padding: 2em;
+.nav a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s;
 }
 
-.read-the-docs {
-  color: #888;
+.nav a:hover {
+    background: rgba(76, 175, 80, 0.2);
+    transform: translateY(-2px);
+}
+
+.nav svg {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* Блок пользователя */
+.user {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    background: var(--user-bg);
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    border: 1px solid var(--accent-color);
+    transition: all 0.3s;
+}
+
+.user:hover {
+    background: rgba(76, 175, 80, 0.3);
+}
+
+/* Основной контент */
+.main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.main h1 {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .logo::after {
+        display: none;
+    }
+
+    .nav {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: center;
+    }
 }
