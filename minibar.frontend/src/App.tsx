@@ -1,5 +1,5 @@
 import './App.css'
-import { FaWineBottle, FaThList, FaCocktail, FaLemon } from "react-icons/fa";
+import { FaWineBottle, FaThList, FaCocktail, FaLemon, FaUser } from "react-icons/fa";
 
 function App() {
   const currentUser = "Deeps";
@@ -7,14 +7,41 @@ function App() {
   return (
     <div className="app">
         <header className="header">
-            <div className="logo">Минибар</div>
-            <nav className="nav">
-                <a href="#"><FaWineBottle />Напитки</a>
-                <a href="#"><FaThList />Категории</a>
-                <a href="#"><FaCocktail />Коктейли</a>
-                <a href="#"><FaLemon />Ингридиенты</a>
+            {/* Название бара */}
+            <div className="bar-name">Минибар</div>
+
+            {/* Левая навигация */}
+            <nav className="nav-left">
+                <a href="#">
+                    <FaWineBottle />Напитки
+                </a>
+                <a href="#">
+                    <FaThList />Категории
+                </a>
             </nav>
-            <div className="user">{currentUser}</div>
+            {/* Логотип по центру */}
+            <div className="logo-container">
+                <img
+                    src="/PapuBarmen2.jpg"
+                    alt="Минибар"
+                    className="logo"
+                />
+            </div>
+            {/* Правая навигация */}
+            <nav className="nav-right">
+                <a href="#">
+                    <FaCocktail />Коктейли
+                </a>
+                <a href="#">
+                    <FaLemon />Ингридиенты
+                </a>
+            </nav>
+            {/* Блок пользователя */}
+            <div className="user-container">
+                <div className="user">
+                    <FaUser /> {currentUser}
+                </div>
+            </div>
             <div className="header-decoration"></div>
         </header>
         <main className="main">
