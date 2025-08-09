@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Minibar.Entities.Categories;
 using Minibar.Entities.Drinks;
 using Minibar.Entities.Roles;
 using Minibar.Entities.Users;
@@ -13,6 +14,8 @@ namespace Minibar.Infrastructure.PostgreSQL
 
         public DbSet<Role> Roles { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+
         public MinibarDbContext(DbContextOptions<MinibarDbContext> options)
             : base(options)
         {
@@ -25,6 +28,7 @@ namespace Minibar.Infrastructure.PostgreSQL
             modelBuilder.Entity<Drink>().ToTable("Drinks");
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Role>().ToTable("Roles");
+            modelBuilder.Entity<Category>().ToTable("Categories");
         }
     }
 }

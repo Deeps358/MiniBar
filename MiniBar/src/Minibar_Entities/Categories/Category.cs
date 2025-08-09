@@ -1,9 +1,8 @@
-﻿namespace Minibar.Entities.Alcohol
-{
-    public class Category
-    {
-        public Guid Id { get; set; }
+﻿namespace Minibar.Entities.Categories;
 
-        public required string Name { get; set; }
-    }
+public class Category
+{
+    public int Id { get; set; }
+
+    public required string Name { get; set; }
 }

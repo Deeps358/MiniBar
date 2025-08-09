@@ -40,7 +40,7 @@ namespace Minibar.Web
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(1); // Точное время жизни 1 минута
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Точное время жизни 30 минут
                     options.SlidingExpiration = false; // Отключаем автопродление
 
                     // Полностью отключаем редиректы для API

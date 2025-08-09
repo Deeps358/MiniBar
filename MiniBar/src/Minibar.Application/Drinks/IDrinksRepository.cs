@@ -18,5 +18,7 @@ namespace Minibar.Application.Drinks
         Task<Drink?> GetByIdAsync(int drinkId, CancellationToken cancellationToken);
 
         Task<Drink?> GetByNameAsync(string name, CancellationToken cancellationToken);
+
+        Task<Drink[]?> GetAllAsync(CancellationToken cancellationToken);
     }
 }

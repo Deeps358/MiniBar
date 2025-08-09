@@ -74,7 +74,7 @@ namespace Minibar.Application.Users
             var getUser = await _usersRepository.GetByUserNameAsync(loginUserDTO.UserName, cancellationToken);
             if (getUser == null)
             {
-                throw new Exception("Пользователя с таким мылом нет!");
+                throw new Exception("Пользователя с таким логином нет!");
             }
 
             var hasher = new PasswordHasher<string>();
