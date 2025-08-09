@@ -5,7 +5,7 @@ using Minibar.Contracts.Categories;
 namespace Minibar.Controllers.Categories
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CategoriesController : ControllerBase
     {
         [HttpGet("{categoryId:guid}")]

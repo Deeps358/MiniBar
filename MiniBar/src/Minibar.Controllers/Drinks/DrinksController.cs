@@ -7,7 +7,7 @@ using Minibar.Entities.Drinks;
 namespace Minibar.Controllers.Drinks
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     public class DrinksController : ControllerBase
     {
         private readonly IDrinksService _drinksService;
