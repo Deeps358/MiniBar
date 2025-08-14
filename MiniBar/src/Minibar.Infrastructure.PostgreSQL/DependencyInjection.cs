@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Minibar.Application.Categories;
 using Minibar.Application.Drinks;
 using Minibar.Application.Users;
 using Minibar.Entities.Categories;
+using Minibar.Entities.Drinks;
 using Minibar.Entities.Roles;
 using Minibar.Entities.Users;
 using Minibar.Infrastructure.PostgreSQL.Repositories;
@@ -19,6 +21,7 @@ namespace Minibar.Infrastructure.PostgreSQL
 
             services.AddScoped<IDrinksRepository, DrinksEfCoreRepository>();
             services.AddScoped<IUsersRepository, UsersEfCoreRepository>();
+            services.AddScoped<ICategoriesRepository, CategoriesEfCoreRepository>();
 
             return services;
         }
@@ -30,10 +33,18 @@ namespace Minibar.Infrastructure.PostgreSQL
                 var dbContext = scope.ServiceProvider.GetRequiredService<MinibarDbContext>();
                 if (dbContext.Database.EnsureCreated()) // создать БД с таблицами если их ещё нет
                 {
+                    dbContext.Drinks.AddRange(
+                        new Drink("Green baboon", "Хороший Питерский джин", null, 1, 3, null),
+                        new Drink("Olmeca gold", "Текилка, дороговато", "/drinks/Olmeca Gold.jpg", 1, 1, null),
+                        new Drink("Indiana Gold", "Отличная текила", "/drinks/Indiana Gold.jpg", 1, 1, null),
+                        new Drink("Кагорчик", "хехехе", null, 1, 3, null),
+                        new Drink("Beluga", "Не ну это Белуга, премиум водка", null, 1, 2, null));
+
                     dbContext.Categories.AddRange(
                         new Category { Name = "Текила" },
                         new Category { Name = "Водка" },
-                        new Category { Name = "Джин" });
+                        new Category { Name = "Джин" },
+                        new Category { Name = "Всё остальное" });
 
                     dbContext.Roles.AddRange(
                         new Role { RoleName = "Администратор" },

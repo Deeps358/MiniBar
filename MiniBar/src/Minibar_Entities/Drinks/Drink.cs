@@ -6,22 +6,31 @@
         public Drink(
             string name,
             string description,
+            string picturePath,
             int userId,
             int categoryId,
             IEnumerable<int> tags)
         {
             Name = name;
             Description = description;
+            PicturePath = picturePath;
             UserId = userId;
             CategoryId = categoryId;
-            Tags = tags.ToList();
+            if (tags != null)
+            {
+                Tags = tags.ToArray();
+            }
+
+            CreatedAt = DateTime.Now.ToUniversalTime();
         }
 
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
+
+        public string? PicturePath { get; set; }
 
         public int UserId { get; set; }
 

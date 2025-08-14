@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Minibar.Entities.Drinks;
+﻿using Minibar.Entities.Drinks;
 
 namespace Minibar.Application.Drinks
 {
@@ -11,9 +6,9 @@ namespace Minibar.Application.Drinks
     {
         Task<int> CreateAsync(Drink drink, CancellationToken cancellationToken);
 
-        Task<Guid> UpdateAsync(Drink drink, CancellationToken cancellationToken);
+        Task<int> UpdateAsync(Drink drink, CancellationToken cancellationToken);
 
-        Task<Guid> DeleteAsync(Guid drinkId, CancellationToken cancellationToken);
+        Task<int> DeleteAsync(int drinkId, CancellationToken cancellationToken);
 
         Task<Drink?> GetByIdAsync(int drinkId, CancellationToken cancellationToken);
 

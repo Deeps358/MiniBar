@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Minibar.Application.Drinks;
 using Minibar.Contracts.Drinks;
-using Minibar.Entities.Drinks;
 
 namespace Minibar.Controllers.Drinks
 {

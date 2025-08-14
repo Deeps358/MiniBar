@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Minibar.Application.Categories;
 using Minibar.Application.Drinks;
 using Minibar.Application.Users;
 
@@ -13,6 +14,7 @@ namespace Minibar.Application
 
             services.AddScoped<IDrinksService, DrinksService>();
             services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<ICategoriesService, CategoriesService>();
 
             return services;
         }

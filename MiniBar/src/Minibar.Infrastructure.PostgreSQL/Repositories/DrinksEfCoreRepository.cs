@@ -20,10 +20,7 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             return drink.Id;
         }
 
-        public async Task<Guid> DeleteAsync(Guid drinkId, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<int> DeleteAsync(int drinkId, CancellationToken cancellationToken) => throw new NotImplementedException();
 
         public async Task<Drink[]?> GetAllAsync(CancellationToken cancellationToken)
         {
@@ -47,5 +44,7 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
         {
             throw new NotImplementedException();
         }
+
+        Task<int> IDrinksRepository.UpdateAsync(Drink drink, CancellationToken cancellationToken) => throw new NotImplementedException();
     }
 }

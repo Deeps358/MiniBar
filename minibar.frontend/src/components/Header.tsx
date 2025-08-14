@@ -1,4 +1,4 @@
-import '../App.css'
+import '../styles/App.css'
 import { FaWineBottle, FaThList, FaCocktail, FaLemon, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -28,7 +28,7 @@ function Header() {
             {/* Логотип по центру */}
             <div className="logo-container">
                 <img
-                    src="/PapuBarmen2.jpg"
+                    src="/header_image.jpg"
                     alt="Минибар"
                     className="logo"
                 />

@@ -46,6 +46,7 @@ namespace Minibar.Application.Drinks
             var drink = new Drink(
                 drinkDTO.Name,
                 drinkDTO.Description,
+                drinkDTO.PicturePath,
                 drinkDTO.UserId,
                 drinkDTO.CategoryId,
                 drinkDTO.TagsIds);
