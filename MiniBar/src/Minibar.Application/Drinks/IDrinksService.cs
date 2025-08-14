@@ -1,11 +1,13 @@
-﻿using Minibar.Contracts.Drinks;
+﻿using CSharpFunctionalExtensions;
+using Minibar.Contracts.Drinks;
 using Minibar.Entities.Drinks;
+using Shared;
 
 namespace Minibar.Application.Drinks
 {
     public interface IDrinksService
     {
-        Task<int> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken);
+        Task<Result<int, Failure>> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken);
 
         Task<Drink[]> GetAll(CancellationToken cancellationToken);
     }

@@ -5,7 +5,7 @@ namespace Minibar.Application.Exceptions
 {
     public class BadRequestException : Exception // 500
     {
-        public BadRequestException(IEnumerable<Error> errors)
+        public BadRequestException(Failure errors)
             : base(JsonSerializer.Serialize(errors))
         {
 

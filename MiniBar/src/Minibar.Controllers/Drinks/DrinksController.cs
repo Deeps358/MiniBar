@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Minibar.Application.Drinks;
 using Minibar.Contracts.Drinks;
+using Minibar.Controllers.ResponceExtensions;
 
 namespace Minibar.Controllers.Drinks
 {
@@ -39,8 +40,13 @@ namespace Minibar.Controllers.Drinks
         [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateDrinkDTO createDrinkDTO, CancellationToken cancellationToken)
         {
-            var drinkId = await _drinksService.Create(createDrinkDTO, cancellationToken);
-            return Ok(drinkId);
+            var result = await _drinksService.Create(createDrinkDTO, cancellationToken);
+            if (result.IsFailure)
+            {
+                return result.Error.ToResponce();
+            }
+
+            return Ok(result.Value);
         }
 
         [HttpPut("Update{drinkId:int}")]
