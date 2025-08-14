@@ -46,6 +46,7 @@ namespace Minibar.Application.Drinks
             var drink = new Drink(
                 drinkDTO.Name,
                 drinkDTO.Description,
+                drinkDTO.PicturePath,
                 drinkDTO.UserId,
                 drinkDTO.CategoryId,
                 drinkDTO.TagsIds);
@@ -57,6 +58,11 @@ namespace Minibar.Application.Drinks
             _logger.LogInformation("Drink created with id {drinkId}", drinkId);
 
             return drinkId;
+        }
+
+        public async Task<Drink[]?> GetAll(CancellationToken cancellationToken)
+        {
+            return await _drinksRepository.GetAllAsync(cancellationToken);
         }
     }
 }

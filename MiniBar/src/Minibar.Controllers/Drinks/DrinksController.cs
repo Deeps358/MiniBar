@@ -6,7 +6,7 @@ using Minibar.Contracts.Drinks;
 namespace Minibar.Controllers.Drinks
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     public class DrinksController : ControllerBase
     {
         private readonly IDrinksService _drinksService;
@@ -20,6 +20,13 @@ namespace Minibar.Controllers.Drinks
         public async Task<IActionResult> Find([FromQuery] FindDrinkDTO getDrinkDTO, CancellationToken cancellationToken)
         {
             return Ok("Drink found");
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        {
+            var getDrinks = await _drinksService.GetAll(cancellationToken); // может прийти пустым если напитков нет в БД
+            return Ok(getDrinks);
         }
 
         [HttpGet("GetById{drinkId:int}")]

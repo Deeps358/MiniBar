@@ -32,6 +32,17 @@ namespace Minibar.Web
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             services.AddOpenApi();
 
+            // Чтоб запросы с морды могли прийти
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
+
             return services;
         }
 
@@ -40,7 +51,7 @@ namespace Minibar.Web
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(1); // Точное время жизни 1 минута
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Точное время жизни 30 минут
                     options.SlidingExpiration = false; // Отключаем автопродление
 
                     // Полностью отключаем редиректы для API

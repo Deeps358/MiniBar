@@ -20,9 +20,12 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             return drink.Id;
         }
 
-        public async Task<Guid> DeleteAsync(Guid drinkId, CancellationToken cancellationToken)
+        public async Task<int> DeleteAsync(int drinkId, CancellationToken cancellationToken) => throw new NotImplementedException();
+
+        public async Task<Drink[]?> GetAllAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Drink[] allDrinks = await _minibarDbContext.Drinks.ToArrayAsync(cancellationToken); // получить массив всех напитков
+            return allDrinks;
         }
 
         public async Task<Drink?> GetByIdAsync(int drinkId, CancellationToken cancellationToken)
@@ -41,5 +44,7 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
         {
             throw new NotImplementedException();
         }
+
+        Task<int> IDrinksRepository.UpdateAsync(Drink drink, CancellationToken cancellationToken) => throw new NotImplementedException();
     }
 }
