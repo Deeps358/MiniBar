@@ -20,7 +20,7 @@ namespace Minibar.Controllers.Drinks
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _drinksService.GetAll(cancellationToken); // может прийти пустым если напитков нет в БД
+            var result = await _drinksService.GetAllAsync(cancellationToken); // может прийти пустым если напитков нет в БД
             if(result.IsFailure)
             {
                 return result.Error.ToResponce();
@@ -33,7 +33,7 @@ namespace Minibar.Controllers.Drinks
         [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateDrinkDTO createDrinkDTO, CancellationToken cancellationToken)
         {
-            var result = await _drinksService.Create(createDrinkDTO, cancellationToken);
+            var result = await _drinksService.CreateAsync(createDrinkDTO, cancellationToken);
             if (result.IsFailure)
             {
                 return result.Error.ToResponce();

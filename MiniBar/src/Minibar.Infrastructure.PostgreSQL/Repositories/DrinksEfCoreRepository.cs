@@ -13,22 +13,7 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             _minibarDbContext = minibarDbContext;
         }
 
-        public async Task<int> CreateAsync(Drink drink, CancellationToken cancellationToken)
-        {
-            await _minibarDbContext.Drinks.AddAsync(drink, cancellationToken);
-            await _minibarDbContext.SaveChangesAsync(cancellationToken);
-            return drink.Id;
-        }
-
-        public async Task<int> DeleteAsync(int drinkId, CancellationToken cancellationToken) => throw new NotImplementedException();
-
-        public async Task<Drink[]?> GetAllAsync(CancellationToken cancellationToken)
-        {
-            Drink[] allDrinks = await _minibarDbContext.Drinks.ToArrayAsync(cancellationToken); // получить массив всех напитков
-            return allDrinks;
-        }
-
-        public async Task<Drink?> GetByIdAsync(int drinkId, CancellationToken cancellationToken)
+        public async Task<Drink?> GetAsync(int drinkId, CancellationToken cancellationToken)
         {
             var drink = await _minibarDbContext.Drinks.FirstOrDefaultAsync(d => d.Id == drinkId, cancellationToken);
             return drink;
@@ -40,11 +25,21 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             return drink;
         }
 
-        public async Task<Guid> UpdateAsync(Drink drink, CancellationToken cancellationToken)
+        public async Task<Drink[]?> GetAllAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Drink[] allDrinks = await _minibarDbContext.Drinks.ToArrayAsync(cancellationToken); // получить массив всех напитков
+            return allDrinks;
         }
 
-        Task<int> IDrinksRepository.UpdateAsync(Drink drink, CancellationToken cancellationToken) => throw new NotImplementedException();
+        public async Task<int> CreateAsync(Drink drink, CancellationToken cancellationToken)
+        {
+            await _minibarDbContext.Drinks.AddAsync(drink, cancellationToken);
+            await _minibarDbContext.SaveChangesAsync(cancellationToken);
+            return drink.Id;
+        }
+
+        public async Task<int> UpdateAsync(Drink drink, CancellationToken cancellationToken) => throw new NotImplementedException();
+
+        public async Task<string> DeleteAsync(int drinkId, CancellationToken cancellationToken) => throw new NotImplementedException();
     }
 }

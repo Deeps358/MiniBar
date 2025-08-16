@@ -5,10 +5,8 @@ using Shared;
 
 namespace Minibar.Application.Drinks
 {
-    public interface IDrinksService
+    public interface IDrinksService : ICommonService<CreateDrinkDTO, Drink>
     {
-        Task<Result<int, Failure>> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken);
 
-        Task<Result<Drink[], Failure>> GetAll(CancellationToken cancellationToken);
     }
 }

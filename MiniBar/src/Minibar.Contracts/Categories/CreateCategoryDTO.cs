@@ -1,4 +1,4 @@
 ﻿namespace Minibar.Contracts.Categories
 {
-    public record CreateCategoryDTO(string name, Guid UserId);
+    public record CreateCategoryDTO(string name, int userId);
 }

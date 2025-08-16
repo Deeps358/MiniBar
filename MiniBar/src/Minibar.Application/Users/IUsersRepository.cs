@@ -2,18 +2,8 @@
 
 namespace Minibar.Application.Users
 {
-    public interface IUsersRepository
+    public interface IUsersRepository : ICommonRepository<User>
     {
-        Task<int> CreateAsync(User user, CancellationToken cancellationToken);
-
-        Task<Guid> UpdateAsync(User user, CancellationToken cancellationToken);
-
-        Task<int> DeleteAsync(int userId, CancellationToken cancellationToken);
-
-        Task<User?> GetByIdAsync(int userId, CancellationToken cancellationToken);
-
-        Task<User?> GetByUserNameAsync(string userName, CancellationToken cancellationToken);
-
         Task<string> GetRoleByIdAsync(int roleId, CancellationToken cancellationToken);
     }
 }

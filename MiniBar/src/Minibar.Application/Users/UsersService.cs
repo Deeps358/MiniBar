@@ -35,6 +35,18 @@ namespace Minibar.Application.Users
             _validator = validator;
         }
 
+        public async Task<Result<User?, Failure>> GetAsync(int id, CancellationToken cancellationToken) => throw new NotImplementedException();
+
+        public async Task<Result<User?, Failure>> GetByNameAsync(string name, CancellationToken cancellationToken)
+        {
+            return await _usersRepository.GetByNameAsync(name, cancellationToken);
+        }
+
+        public async Task<Result<User[]?, Failure>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return await _usersRepository.GetAllAsync(cancellationToken);
+        }
+
         public async Task<Result<int, Failure>> CreateAsync(CreateUserDTO userDTO, CancellationToken cancellationToken)
         {
             // валидация
@@ -45,7 +57,7 @@ namespace Minibar.Application.Users
             }
 
             // проверить что такой почты ещё нет
-            var getUser = await _usersRepository.GetByUserNameAsync(userDTO.UserName, cancellationToken);
+            var getUser = await _usersRepository.GetByNameAsync(userDTO.UserName, cancellationToken);
             if (getUser != null)
             {
                 throw new UserAlreadyExistsException([Errors.Users.UserAlreadyExist()]);
@@ -70,9 +82,11 @@ namespace Minibar.Application.Users
             return userId;
         }
 
+        public async Task<Result<string, Failure>> DeleteAsync(int id, CancellationToken cancellationToken) => throw new NotImplementedException();
+
         public async Task<Result<int, Failure>> Login(LoginUserDTO loginUserDTO, CancellationToken cancellationToken)
         {
-            var getUser = await _usersRepository.GetByUserNameAsync(loginUserDTO.UserName, cancellationToken);
+            var getUser = await _usersRepository.GetByNameAsync(loginUserDTO.UserName, cancellationToken);
             if (getUser == null)
             {
                 throw new Exception("Пользователя с таким логином нет!");
@@ -119,6 +133,8 @@ namespace Minibar.Application.Users
             await _httpContextAccessor.HttpContext?.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return "Вы успешно вышли из системы!";
         }
+
+        public Task<Result<int, Failure>> UpdateAsync(CreateUserDTO dto, CancellationToken cancellationToken) => throw new NotImplementedException();
 
         public async Task<Result<string, Failure>> WhoIAm(CancellationToken cancellationToken)
         {
