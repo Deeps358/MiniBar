@@ -5,7 +5,7 @@ namespace Minibar.Application.Users.Failures.Exceptions
 {
     public class UserValidationException : BadRequestException
     {
-        public UserValidationException(Error[] errors)
+        public UserValidationException(Failure errors)
             : base(errors)
         {
 

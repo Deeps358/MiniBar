@@ -1,7 +1,7 @@
-﻿using FluentValidation;
+﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Minibar.Application.Drinks.Failures;
-using Minibar.Application.Drinks.Failures.Exceptions;
 using Minibar.Application.Extensions;
 using Minibar.Contracts.Drinks;
 using Minibar.Entities.Drinks;
@@ -25,21 +25,25 @@ namespace Minibar.Application.Drinks
             _logger = logger;
         }
 
-        public async Task<int> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken)
+        public async Task<Result<int, Failure>> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken)
         {
             // Проверить валидность входных данных (с помощью либы FluentValidation)
             var validationResult = await _validator.ValidateAsync(drinkDTO, cancellationToken);
             if (!validationResult.IsValid)
             {
-                throw new DrinkValidationException(validationResult.ToErrors()); // Extension метод
+                // throw new DrinkValidationException(validationResult.ToErrors()); // Extension метод
+                return validationResult.ToErrors(); // и ошибки вернём и код дальше не пойдёт
             }
 
             // здесь валидация именно бизнес логики
             var nameResult = await _drinksRepository.GetByNameAsync(drinkDTO.Name, cancellationToken);
             if (nameResult != null)
             {
-                _logger.LogInformation("Попытка добавить существующий напиток!");
-                throw new DrinkAlreadyExistException([Errors.Drinks.DrinkAlreadyExist()]);
+                _logger.LogInformation($"Попытка добавить существующий напиток с названием {drinkDTO.Name}!");
+                return Errors.Drinks.DrinkAlreadyExist().ToFailure();
+
+                // return [Errors.Drinks.DrinkAlreadyExist()]; // не сработает с неявным преобразованием
+                // throw new DrinkAlreadyExistException([Errors.Drinks.DrinkAlreadyExist()]);
             }
 
             // Создать сущность Drink
@@ -60,7 +64,7 @@ namespace Minibar.Application.Drinks
             return drinkId;
         }
 
-        public async Task<Drink[]?> GetAll(CancellationToken cancellationToken)
+        public async Task<Result<Drink[]?, Failure>> GetAll(CancellationToken cancellationToken)
         {
             return await _drinksRepository.GetAllAsync(cancellationToken);
         }

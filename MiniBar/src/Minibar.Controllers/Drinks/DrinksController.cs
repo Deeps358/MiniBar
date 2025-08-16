@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Minibar.Application.Drinks;
 using Minibar.Contracts.Drinks;
+using Minibar.Controllers.ResponceExtensions;
 
 namespace Minibar.Controllers.Drinks
 {
@@ -16,45 +17,29 @@ namespace Minibar.Controllers.Drinks
             _drinksService = drinksService;
         }
 
-        [HttpGet("Find")]
-        public async Task<IActionResult> Find([FromQuery] FindDrinkDTO getDrinkDTO, CancellationToken cancellationToken)
-        {
-            return Ok("Drink found");
-        }
-
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var getDrinks = await _drinksService.GetAll(cancellationToken); // может прийти пустым если напитков нет в БД
-            return Ok(getDrinks);
-        }
+            var result = await _drinksService.GetAll(cancellationToken); // может прийти пустым если напитков нет в БД
+            if(result.IsFailure)
+            {
+                return result.Error.ToResponce();
+            }
 
-        [HttpGet("GetById{drinkId:int}")]
-        public async Task<IActionResult> GetById([FromRoute] int drinkId, CancellationToken cancellationToken)
-        {
-            return Ok("Drink got, hold it");
+            return Ok(result.Value);
         }
 
         [HttpPost("Create")]
         [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateDrinkDTO createDrinkDTO, CancellationToken cancellationToken)
         {
-            var drinkId = await _drinksService.Create(createDrinkDTO, cancellationToken);
-            return Ok(drinkId);
-        }
+            var result = await _drinksService.Create(createDrinkDTO, cancellationToken);
+            if (result.IsFailure)
+            {
+                return result.Error.ToResponce();
+            }
 
-        [HttpPut("Update{drinkId:int}")]
-        [Authorize]
-        public async Task<IActionResult> Update([FromRoute] Guid drinkId, [FromBody] UpdateDrinkDTO updateDrinkDTO, CancellationToken cancellationToken)
-        {
-            return Ok("Drink updated");
-        }
-
-        [HttpDelete("Delete{drinkId:int}")]
-        [Authorize(Roles = "Администратор")] // Только пользователи с ролью "Admin"
-        public async Task<IActionResult> Delete([FromRoute] Guid drinkId, CancellationToken cancellationToken)
-        {
-            return Ok("Drink removed");
+            return Ok(result.Value);
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.Logging;
 using Minibar.Entities.Categories;
+using Shared;
 
 namespace Minibar.Application.Categories
 {
@@ -16,25 +18,19 @@ namespace Minibar.Application.Categories
             _logger = logger;
         }
 
-        public async Task<int> CreateAsync(Category category, CancellationToken cancellationToken) => throw new NotImplementedException();
-
-        public async Task<int> DeleteAsync(int categoryId, CancellationToken cancellationToken) => throw new NotImplementedException();
-
-        public async Task<Category?> GetByIdAsync(int categoryId, CancellationToken cancellationToken)
+        public async Task<Result<Category?, Failure>> GetByIdAsync(int categoryId, CancellationToken cancellationToken)
         {
             return await _categoriesRepository.GetByIdAsync(categoryId, cancellationToken);
         }
 
-        public async Task<Category[]?> GetFewAsync(int[] categoryIds, CancellationToken cancellationToken)
+        public async Task<Result<Category[]?, Failure>> GetFewAsync(int[] categoryIds, CancellationToken cancellationToken)
         {
             return await _categoriesRepository.GetFewAsync(categoryIds, cancellationToken);
         }
 
-        public async Task<Category[]?> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<Result<Category[]?, Failure>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _categoriesRepository.GetAllAsync(cancellationToken);
         }
-
-        public async Task<int> UpdateAsync(Category category, CancellationToken cancellationToken) => throw new NotImplementedException();
     }
 }

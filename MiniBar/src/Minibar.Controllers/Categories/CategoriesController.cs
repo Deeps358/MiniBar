@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Minibar.Application.Categories;
-using Minibar.Contracts.Categories;
+using Minibar.Controllers.ResponceExtensions;
 
 namespace Minibar.Controllers.Categories
 {
@@ -20,6 +19,12 @@ namespace Minibar.Controllers.Categories
         public async Task<IActionResult> GetById([FromRoute] int categoryId, CancellationToken cancellationToken)
         {
             var category = await _categoriesService.GetByIdAsync(categoryId, cancellationToken);
+
+            if(category.IsFailure)
+            {
+                return category.Error.ToResponce();
+            }
+
             return Ok(category);
         }
 
@@ -32,6 +37,12 @@ namespace Minibar.Controllers.Categories
             }
 
             var categories = await _categoriesService.GetFewAsync(ids, cancellationToken);
+
+            if(categories.IsFailure)
+            {
+                return categories.Error.ToResponce();
+            }
+
             return Ok(categories);
         }
 
@@ -39,28 +50,13 @@ namespace Minibar.Controllers.Categories
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var categories = await _categoriesService.GetAllAsync(cancellationToken);
+
+            if (categories.IsFailure)
+            {
+                return categories.Error.ToResponce();
+            }
+
             return Ok(categories);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Create([FromBody] CreateCategoryDTO createCategoryDTO, CancellationToken cancellationToken)
-        {
-            return Ok("Category added");
-        }
-
-        [HttpPut("{categoryId:int}")]
-        [Authorize(Roles = "Администратор")] // Только пользователи с ролью "Admin"
-        public async Task<IActionResult> Update([FromRoute] Guid categoryId, [FromBody] UpdateCategoryDTO updateCategoryDTO, CancellationToken cancellationToken)
-        {
-            return Ok("Category updated");
-        }
-
-        [HttpDelete("{categoryId:int}")]
-        [Authorize(Roles = "Администратор")] // Только пользователи с ролью "Admin"
-        public async Task<IActionResult> Delete([FromRoute] Guid categoryId, CancellationToken cancellationToken)
-        {
-            return Ok("Category removed");
         }
     }
 }

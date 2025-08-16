@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace Shared
 {
@@ -31,6 +32,8 @@ namespace Shared
             => new(code ?? "Failure", message, ErrorType.FAILURE);
         public static Error Conflict(string? code, string message)
             => new(code ?? "Value_Is_Conflict", message, ErrorType.CONFLICT);
+
+        public Failure ToFailure() => this; // делаем Failure из Error с помощью неявного преобразования внутри Failure
 
     }
 
