@@ -9,6 +9,6 @@ namespace Minibar.Application.Drinks
     {
         Task<Result<int, Failure>> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken);
 
-        Task<Drink[]> GetAll(CancellationToken cancellationToken);
+        Task<Result<Drink[], Failure>> GetAll(CancellationToken cancellationToken);
     }
 }

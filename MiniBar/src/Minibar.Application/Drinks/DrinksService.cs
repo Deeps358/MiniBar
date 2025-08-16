@@ -64,7 +64,7 @@ namespace Minibar.Application.Drinks
             return drinkId;
         }
 
-        public async Task<Drink[]?> GetAll(CancellationToken cancellationToken)
+        public async Task<Result<Drink[]?, Failure>> GetAll(CancellationToken cancellationToken)
         {
             return await _drinksRepository.GetAllAsync(cancellationToken);
         }

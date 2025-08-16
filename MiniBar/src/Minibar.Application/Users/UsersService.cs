@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using System.Security.Claims;
+using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +13,6 @@ using Minibar.Application.Users.Failures.Exceptions;
 using Minibar.Contracts.Users;
 using Minibar.Entities.Users;
 using Shared;
-using System.Security.Claims;
 
 namespace Minibar.Application.Users
 {
@@ -34,7 +35,7 @@ namespace Minibar.Application.Users
             _validator = validator;
         }
 
-        public async Task<int> Create(CreateUserDTO userDTO, CancellationToken cancellationToken)
+        public async Task<Result<int, Failure>> CreateAsync(CreateUserDTO userDTO, CancellationToken cancellationToken)
         {
             // валидация
             var validationResult = await _validator.ValidateAsync(userDTO, cancellationToken);
@@ -69,7 +70,7 @@ namespace Minibar.Application.Users
             return userId;
         }
 
-        public async Task<int> Login(LoginUserDTO loginUserDTO, CancellationToken cancellationToken)
+        public async Task<Result<int, Failure>> Login(LoginUserDTO loginUserDTO, CancellationToken cancellationToken)
         {
             var getUser = await _usersRepository.GetByUserNameAsync(loginUserDTO.UserName, cancellationToken);
             if (getUser == null)
@@ -113,13 +114,13 @@ namespace Minibar.Application.Users
             }
         }
 
-        public async Task<string> Logout(CancellationToken cancellationToken)
+        public async Task<Result<string, Failure>> Logout(CancellationToken cancellationToken)
         {
             await _httpContextAccessor.HttpContext?.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return "Вы успешно вышли из системы!";
         }
 
-        public async Task<string> WhoIAm(CancellationToken cancellationToken)
+        public async Task<Result<string, Failure>> WhoIAm(CancellationToken cancellationToken)
         {
             string myName = _httpContextAccessor.HttpContext?.User.Identity?.Name;
             return $"Вы залогинены как {myName}";
