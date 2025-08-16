@@ -1,13 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
 using Minibar.Contracts.Users;
+using Minibar.Entities.Users;
 using Shared;
 
 namespace Minibar.Application.Users
 {
-    public interface IUsersService
+    public interface IUsersService : ICommonService<CreateUserDTO, User>
     {
-        Task<Result<int, Failure>> CreateAsync(CreateUserDTO userDTO, CancellationToken cancellationToken);
-
         Task<Result<int, Failure>> Login(LoginUserDTO userDTO, CancellationToken cancellationToken);
 
         Task<Result<string, Failure>> Logout(CancellationToken cancellationToken);

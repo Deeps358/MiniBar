@@ -15,10 +15,10 @@ namespace Minibar.Controllers.Categories
             _categoriesService = categoriesService;
         }
 
-        [HttpGet("GetById{categoryId:int}")]
-        public async Task<IActionResult> GetById([FromRoute] int categoryId, CancellationToken cancellationToken)
+        [HttpGet("Get{categoryId:int}")]
+        public async Task<IActionResult> Get([FromRoute] int categoryId, CancellationToken cancellationToken)
         {
-            var category = await _categoriesService.GetByIdAsync(categoryId, cancellationToken);
+            var category = await _categoriesService.GetAsync(categoryId, cancellationToken);
 
             if(category.IsFailure)
             {

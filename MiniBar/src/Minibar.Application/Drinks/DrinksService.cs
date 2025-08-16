@@ -25,7 +25,16 @@ namespace Minibar.Application.Drinks
             _logger = logger;
         }
 
-        public async Task<Result<int, Failure>> Create(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken)
+        public async Task<Result<Drink?, Failure>> GetAsync(int id, CancellationToken cancellationToken) => throw new NotImplementedException();
+
+        public async Task<Result<Drink?, Failure>> GetByNameAsync(string name, CancellationToken cancellationToken) => throw new NotImplementedException();
+
+        public async Task<Result<Drink[]?, Failure>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return await _drinksRepository.GetAllAsync(cancellationToken);
+        }
+
+        public async Task<Result<int, Failure>> CreateAsync(CreateDrinkDTO drinkDTO, CancellationToken cancellationToken)
         {
             // Проверить валидность входных данных (с помощью либы FluentValidation)
             var validationResult = await _validator.ValidateAsync(drinkDTO, cancellationToken);
@@ -64,9 +73,8 @@ namespace Minibar.Application.Drinks
             return drinkId;
         }
 
-        public async Task<Result<Drink[]?, Failure>> GetAll(CancellationToken cancellationToken)
-        {
-            return await _drinksRepository.GetAllAsync(cancellationToken);
-        }
+        public Task<Result<string, Failure>> DeleteAsync(int id, CancellationToken cancellationToken) => throw new NotImplementedException();
+
+        public async Task<Result<int, Failure>> UpdateAsync(CreateDrinkDTO dto, CancellationToken cancellationToken) => throw new NotImplementedException();
     }
 }

@@ -17,6 +17,19 @@ namespace Minibar.Controllers.Users
             _usersService = usersService;
         }
 
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        {
+            var result = await _usersService.GetAllAsync(cancellationToken);
+
+            if(result.IsFailure)
+            {
+                return result.Error.ToResponce();
+            }
+
+            return Ok(result.Value);
+        }
+
         [HttpPost("Create")]
         [Authorize(Roles = "Администратор")] // Только пользователи с ролью "Admin"
         public async Task<IActionResult> Create([FromBody] CreateUserDTO createUserDTO, CancellationToken cancellationToken)

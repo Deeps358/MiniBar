@@ -13,14 +13,16 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             _minibarDbContext = minibarDbContext;
         }
 
-        public async Task<int> CreateAsync(Category category, CancellationToken cancellationToken) => throw new NotImplementedException();
-
-        public async Task<int> DeleteAsync(int categoryId, CancellationToken cancellationToken) => throw new NotImplementedException();
-
-        public async Task<Category[]?> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<Category?> GetAsync(int categoryId, CancellationToken cancellationToken)
         {
-            Category[] allCategories = await _minibarDbContext.Categories.ToArrayAsync(cancellationToken); // получить массив всех категорий
-            return allCategories;
+            var category = await _minibarDbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId, cancellationToken);
+            return category;
+        }
+
+        public async Task<Category?> GetByNameAsync(string categoryName, CancellationToken cancellationToken)
+        {
+            var category = await _minibarDbContext.Categories.FirstOrDefaultAsync(c => c.Name == categoryName, cancellationToken);
+            return category;
         }
 
         public async Task<Category[]?> GetFewAsync(int[] categoryIds, CancellationToken cancellationToken)
@@ -30,12 +32,16 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             return fewCategories;
         }
 
-        public async Task<Category?> GetByIdAsync(int categoryId, CancellationToken cancellationToken)
+        public async Task<Category[]?> GetAllAsync(CancellationToken cancellationToken)
         {
-            var category = await _minibarDbContext.Categories.FirstOrDefaultAsync(d => d.Id == categoryId, cancellationToken);
-            return category;
+            Category[] allCategories = await _minibarDbContext.Categories.ToArrayAsync(cancellationToken); // получить массив всех категорий
+            return allCategories;
         }
 
+        public async Task<int> CreateAsync(Category category, CancellationToken cancellationToken) => throw new NotImplementedException();
+
         public async Task<int> UpdateAsync(Category category, CancellationToken cancellationToken) => throw new NotImplementedException();
+
+        public async Task<string> DeleteAsync(int categoryId, CancellationToken cancellationToken) => throw new NotImplementedException();
     }
 }

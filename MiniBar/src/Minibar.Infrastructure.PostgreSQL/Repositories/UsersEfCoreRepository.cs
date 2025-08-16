@@ -13,6 +13,20 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             _minibarDbContext = minibarDbContext;
         }
 
+        public async Task<User?> GetAsync(int userId, CancellationToken cancellationToken) => throw new NotImplementedException();
+
+        public async Task<User?> GetByNameAsync(string userName, CancellationToken cancellationToken)
+        {
+            var user = await _minibarDbContext.Users.FirstOrDefaultAsync(d => d.UserName == userName, cancellationToken);
+            return user;
+        }
+
+        public async Task<User[]?> GetAllAsync(CancellationToken cancellationToken)
+        {
+            var users = await _minibarDbContext.Users.ToArrayAsync(cancellationToken);
+            return users;
+        }
+
         public async Task<int> CreateAsync(User user, CancellationToken cancellationToken)
         {
             await _minibarDbContext.Users.AddAsync(user, cancellationToken);
@@ -20,17 +34,9 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             return user.Id;
         }
 
-        public async Task<int> DeleteAsync(int userId, CancellationToken cancellationToken) => throw new NotImplementedException();
+        public async Task<int> UpdateAsync(User user, CancellationToken cancellationToken) => throw new NotImplementedException();
 
-        public async Task<Guid> UpdateAsync(User user, CancellationToken cancellationToken) => throw new NotImplementedException();
-
-        public async Task<User?> GetByIdAsync(int userId, CancellationToken cancellationToken) => throw new NotImplementedException();
-
-        public async Task<User?> GetByUserNameAsync(string userName, CancellationToken cancellationToken)
-        {
-            var user = await _minibarDbContext.Users.FirstOrDefaultAsync(d => d.UserName == userName, cancellationToken);
-            return user;
-        }
+        public async Task<string> DeleteAsync(int userId, CancellationToken cancellationToken) => throw new NotImplementedException();
 
         public async Task<string> GetRoleByIdAsync(int roleId, CancellationToken cancellationToken)
         {
