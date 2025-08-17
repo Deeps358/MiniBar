@@ -17,6 +17,24 @@ namespace Minibar.Controllers.Drinks
             _drinksService = drinksService;
         }
 
+        [HttpGet("GetByGroupNames")]
+        public async Task<IActionResult> GetByGroupNames([FromQuery] string[] catNames, CancellationToken cancellationToken)
+        {
+            if (catNames == null || catNames.Length == 0)
+            {
+                return BadRequest("Не передано название категории!");
+            }
+
+            var drinks = await _drinksService.GetByGroupsAsync(catNames, cancellationToken);
+
+            if (drinks.IsFailure)
+            {
+                return drinks.Error.ToResponce();
+            }
+
+            return Ok(drinks.Value);
+        }
+
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {

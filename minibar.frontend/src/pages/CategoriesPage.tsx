@@ -42,7 +42,7 @@ function CategoriesPage() {
                 <div className="inline-container">
                     <div className="inline-list">
                         {categories.map(category => (
-                            <span key={category.id} className="inline-item">{category.name}</span>
+                            <a href={`/drinks?catNames=${category.name}`} key={category.id} className="inline-item">{category.name}</a>
                         ))}
                     </div>
                 </div>

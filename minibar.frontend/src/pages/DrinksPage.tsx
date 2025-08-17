@@ -1,6 +1,7 @@
 import "../styles/App.css";
 import "../styles/DrinksTable.css";
 import {useEffect, useState} from "react";
+import { useLocation } from 'react-router-dom';
 
 interface Drink {
     id: number;
@@ -19,6 +20,11 @@ interface Category {
 }
 
 function DrinksPage() {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const categoriesFilter = searchParams
+        .getAll('catNames');
+
     const [drinks, setDrinks] = useState<Drink[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
@@ -27,7 +33,11 @@ function DrinksPage() {
     useEffect(() => {
         const fetchDrinks = async() =>{
             try {
-                const responce = await fetch("/api/Drinks/GetAll");
+                let url = '/api/Drinks/GetAll';
+                if(categoriesFilter.length > 0) {
+                    url = `/api/Drinks/GetByGroupNames?${searchParams.toString()}`;
+                }
+                const responce = await fetch(url);
 
                 if(!responce.ok) {
                     throw new Error("Нет ответа от базы с напитками");

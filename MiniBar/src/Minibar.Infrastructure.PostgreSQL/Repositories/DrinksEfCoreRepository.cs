@@ -25,6 +25,12 @@ namespace Minibar.Infrastructure.PostgreSQL.Repositories
             return drink;
         }
 
+        public async Task<Drink[]?> GetByGroupsAsync(int[] catNames, CancellationToken cancellationToken)
+        {
+            var drinks = await _minibarDbContext.Drinks.Where(d => catNames.Contains(d.CategoryId)).ToArrayAsync(cancellationToken);
+            return drinks;
+        }
+
         public async Task<Drink[]?> GetAllAsync(CancellationToken cancellationToken)
         {
             Drink[] allDrinks = await _minibarDbContext.Drinks.ToArrayAsync(cancellationToken); // получить массив всех напитков

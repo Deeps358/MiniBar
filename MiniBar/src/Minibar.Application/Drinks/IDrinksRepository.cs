@@ -6,6 +6,8 @@ namespace Minibar.Application.Drinks
     {
         Task<Drink?> GetByNameAsync(string name, CancellationToken cancellationToken);
 
+        Task<Drink[]?> GetByGroupsAsync(int[] catNames, CancellationToken cancellationToken);
+
         Task<Drink[]?> GetAllAsync(CancellationToken cancellationToken);
     }
 }

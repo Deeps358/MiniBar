@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using Minibar.Application.Categories;
 using Minibar.Application.Drinks.Failures;
 using Minibar.Application.Extensions;
 using Minibar.Contracts.Drinks;
@@ -12,15 +13,18 @@ namespace Minibar.Application.Drinks
     public class DrinksService : IDrinksService
     {
         private readonly IDrinksRepository _drinksRepository;
+        private readonly ICategoriesRepository _categoriesRepository;
         private readonly IValidator<CreateDrinkDTO> _validator;
         private readonly ILogger<DrinksService> _logger;
 
         public DrinksService(
             IDrinksRepository drinksRepository,
+            ICategoriesRepository categoriesRepository,
             IValidator<CreateDrinkDTO> validator,
             ILogger<DrinksService> logger)
         {
             _drinksRepository = drinksRepository;
+            _categoriesRepository = categoriesRepository;
             _validator = validator;
             _logger = logger;
         }
@@ -28,6 +32,24 @@ namespace Minibar.Application.Drinks
         public async Task<Result<Drink?, Failure>> GetAsync(int id, CancellationToken cancellationToken) => throw new NotImplementedException();
 
         public async Task<Result<Drink?, Failure>> GetByNameAsync(string name, CancellationToken cancellationToken) => throw new NotImplementedException();
+
+        public async Task<Result<Drink[]?, Failure>> GetByGroupsAsync(string[] catNames, CancellationToken cancellationToken)
+        {
+            List<int> groupIds = new();
+
+            foreach (string group in catNames)
+            {
+                var category = await _categoriesRepository.GetByNameAsync(group, cancellationToken);
+
+                // сделать вывод ошибки что такой категории нет
+                if (category != null)
+                {
+                    groupIds.Add(category.Id);
+                }
+            }
+
+            return await _drinksRepository.GetByGroupsAsync(groupIds.ToArray(), cancellationToken);
+        }
 
         public async Task<Result<Drink[]?, Failure>> GetAllAsync(CancellationToken cancellationToken)
         {
