@@ -25,7 +25,7 @@ namespace Minibar.Controllers.Categories
                 return category.Error.ToResponce();
             }
 
-            return Ok(category);
+            return Ok(category.Value);
         }
 
         [HttpGet("GetFew")]
@@ -43,7 +43,7 @@ namespace Minibar.Controllers.Categories
                 return categories.Error.ToResponce();
             }
 
-            return Ok(categories);
+            return Ok(categories.Value);
         }
 
         [HttpGet("GetAll")]
@@ -56,7 +56,7 @@ namespace Minibar.Controllers.Categories
                 return categories.Error.ToResponce();
             }
 
-            return Ok(categories);
+            return Ok(categories.Value);
         }
     }
 }

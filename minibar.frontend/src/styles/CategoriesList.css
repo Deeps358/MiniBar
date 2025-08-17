@@ -1,0 +1,36 @@
+.inline-container {
+    margin: 2rem auto;
+    background-color: var(--main-bg);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.inline-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #e0f2e9; /* Светло-зеленый текст */
+}
+
+.inline-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.inline-item {
+    font-size: 1.25rem;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--card-backgr-color); /* Средне-зеленый фон элементов */
+    border-radius: 0.5rem;
+    color: #ffffff; /* Белый текст */
+    transition: all 0.2s ease;
+    border: var(--card-border-color) 1px solid; /* Светло-зеленая граница */
+}
+
+.inline-item:hover {
+    background-color: var(--card-backgr-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
