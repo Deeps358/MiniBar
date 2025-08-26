@@ -1,0 +1,37 @@
+.add-button {
+    position: fixed;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    right: 20px;
+    bottom: 20px;
+    padding: 12px 18px;
+    background-color: var(--card-backgr-color);
+    color: var(--text-light);
+    border: var(--card-border-color) 1px solid;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.add-button:hover {
+    background-color: var(--card-backgr-hover-color);;
+    transform: translateY(-2px);
+}
+
+.add-button:active {
+    transform: translateY(0); /* при клике слегка уедет вниз */
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+    .add-button {
+        right: 15px;
+        bottom: 15px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}

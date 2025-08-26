@@ -2,6 +2,7 @@ import "../styles/App.css";
 import "../styles/DrinksTable.css";
 import {useEffect, useState} from "react";
 import { useLocation } from 'react-router-dom';
+import AddButton from "../components/AddButton.tsx";
 
 interface Drink {
     id: number;
@@ -33,6 +34,7 @@ function DrinksPage() {
     useEffect(() => {
         const fetchDrinks = async() =>{
             try {
+                setLoading(true);
                 let url = '/api/Drinks/GetAll';
                 if(categoriesFilter.length > 0) {
                     url = `/api/Drinks/GetByGroupNames?${searchParams.toString()}`;
@@ -58,6 +60,7 @@ function DrinksPage() {
     useEffect(() => {
         async function fetchCategories() {
             try {
+                setLoading(true);
                 const categoriesIds = [...new Set(drinks.map(d => d.categoryId))];
 
                 if (categoriesIds.length === 0) {
@@ -87,8 +90,9 @@ function DrinksPage() {
     return (
         <div className="app">
             <main className="main">
-                <h1>Все напитки из базы</h1>
-                {loading? (<div>Загрузка...</div>) : null}
+                {loading
+                    ? (<div><h1>Загрузка...</h1></div>)
+                    : (<div><h1>Все напитки из базы</h1></div>)}
                 {error? (<div>Ошибка: {error}</div>) : null}
                 <div className="drink-grid">
                     {drinks.map((drink, index) => (
@@ -112,6 +116,7 @@ function DrinksPage() {
                     ))}
                 </div>
             </main>
+            <AddButton text="Добавить напиток" linkTo="/drinks/add"/>
         </div>
     )
 }
