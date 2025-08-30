@@ -48,8 +48,8 @@ namespace Minibar.Controllers.Drinks
         }
 
         [HttpPost("Create")]
-        [Authorize]
-        public async Task<IActionResult> Create([FromBody] CreateDrinkDTO createDrinkDTO, CancellationToken cancellationToken)
+        //[Authorize]
+        public async Task<IActionResult> Create([FromForm] CreateDrinkDTO createDrinkDTO, CancellationToken cancellationToken)
         {
             var result = await _drinksService.CreateAsync(createDrinkDTO, cancellationToken);
             if (result.IsFailure)
