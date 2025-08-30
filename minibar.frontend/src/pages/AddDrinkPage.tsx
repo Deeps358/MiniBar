@@ -1,4 +1,4 @@
-import React, { useState, useRef, type ChangeEvent } from 'react';
+import React, {useState, useRef, type ChangeEvent, useEffect} from 'react';
 import '../styles/App.css'
 import '../styles/DrinkAddingForm.css';
 
@@ -6,7 +6,12 @@ interface DrinkData {
     name: string;
     description: string;
     photo: File | null;
-    category: string;
+    categoryId: number | ''; // может быть пустым
+}
+
+interface Category {
+    id: number;
+    name: string;
 }
 
 function AddDrinkPage() {
@@ -15,18 +20,64 @@ function AddDrinkPage() {
         name: '',
         description: '',
         photo: null,
-        category: 'user'
+        categoryId: '' // пустое изначально
     });
 
+    const [categories, setCategories] = useState<Category[]>([]);
     const [preview, setPreview] = useState<string | null>(null);
+    const [formErrors, setFormErrors] = useState<{ categoryId?: string }>({});
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchCategories = async() =>{
+            try {
+                setLoading(true);
+                const responce = await fetch("/api/Categories/GetAll");
+
+                if(!responce.ok) {
+                    throw new Error("Нет ответа от базы с категориями");
+                }
+
+                const data: Category[] = await responce.json();
+                setCategories(data);
+
+                // Устанавливаем первую группу по умолчанию, если группы загружены
+                if (data.length > 0) {
+                    setDrinkData(prev => ({ ...prev, groupId: data[0].id }));
+                }
+            } catch (err) {
+                setError(err instanceof Error ? err.message : "Непонятно что произошло в БД с категориями");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCategories();
+    }, []);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setDrinkData(prev => ({
             ...prev,
-            [name]: value
+            [name]: name === 'categoryId' ? (value === '' ? '' : parseInt(value, 10)) : value
         }));
+
+        // Очищаем ошибку при изменении выбора
+        if (name === 'categoryId' && formErrors.categoryId) {
+            setFormErrors(prev => ({ ...prev, categoryId: undefined }));
+        }
+    };
+
+    const validateForm = (): boolean => {
+        const errors: { categoryId?: string } = {};
+
+        if (drinkData.categoryId === '') {
+            errors.categoryId = 'Пожалуйста, выберите группу';
+        }
+
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
     };
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +112,13 @@ function AddDrinkPage() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!validateForm()) {
+            // Прокрутка к ошибке
+            const errorElement = document.querySelector('.error-message');
+            errorElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
         // Здесь будет логика отправки данных
         console.log('Данные о напитке:', drinkData);
 
@@ -80,15 +138,18 @@ function AddDrinkPage() {
             name: '',
             description: '',
             photo: null,
-            category: 'user'
+            categoryId: ''
         });
         setPreview(null);
+        setFormErrors({});
     };
 
     return (
         <div className="app">
             <main className="main">
                 <h1>Добавление напитка</h1>
+                {loading && <div className="loading">Загрузка категорий...</div>}
+                {error && <div className="error">Ошибка: {error}</div>}
                 <div className="drink-form-container">
                     <form onSubmit={handleSubmit} className="drink-form">
                         <div className="form-group">
@@ -150,21 +211,38 @@ function AddDrinkPage() {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="group">Категория *</label>
+                            <label htmlFor="categoryId">Категория *</label>
                             <select
-                                id="group"
-                                name="group"
-                                value={drinkData.category}
+                                id="categoryId"
+                                name="categoryId"
+                                value={drinkData.categoryId}
                                 onChange={handleInputChange}
                                 required
+                                disabled={loading}
+                                className={formErrors.categoryId ? 'error' : ''}
                             >
-                                <option value="admin">Администратор</option>
-                                <option value="manager">Менеджер</option>
-                                <option value="user">Пользователь</option>
+                                <option value="">-- Выберите категорию --</option>
+                                {categories.map(category => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))}
                             </select>
+
+                            {formErrors.categoryId && (
+                                <div className="error-message">{formErrors.categoryId}</div>
+                            )}
+
+                            {categories.length === 0 && !loading && (
+                                <div className="warning">Группы не загружены</div>
+                            )}
                         </div>
 
-                        <button type="submit" className="submit-btn">
+                        <button
+                            type="submit"
+                            className="submit-btn"
+                            disabled={loading || categories.length === 0}
+                        >
                             Добавить напиток
                         </button>
                     </form>

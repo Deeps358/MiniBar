@@ -127,6 +127,70 @@
     cursor: not-allowed;
 }
 
+.loading {
+    text-align: center;
+    color: #007bff;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.error {
+    text-align: center;
+    color: #dc3545;
+    padding: 10px;
+    background: #f8d7da;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb;
+}
+
+.warning {
+    color: #856404;
+    background: #fff3cd;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+select:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+.submit-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+select.error {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+    padding: 5px;
+    background: #f8d7da;
+    border-radius: 4px;
+    border: 1px solid #f5c6cb;
+}
+
+/* Убираем стандартную браузерную валидацию */
+select:invalid {
+    box-shadow: none;
+}
+
+/* Стиль для опции "Не выбрано" */
+option[value=""] {
+    color: #6c757d;
+    font-style: italic;
+}
+
 @media (max-width: 768px) {
     .drink-form-container {
         padding: 15px;
