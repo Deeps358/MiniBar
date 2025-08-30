@@ -7,6 +7,8 @@ interface DrinkData {
     description: string;
     photo: File | null;
     categoryId: number | ''; // может быть пустым
+    userId: number;
+    tagsIds: number[];
 }
 
 interface Category {
@@ -20,13 +22,16 @@ function AddDrinkPage() {
         name: '',
         description: '',
         photo: null,
-        categoryId: '' // пустое изначально
+        categoryId: '', // пустое изначально
+        userId: 1,
+        tagsIds: []
     });
 
     const [categories, setCategories] = useState<Category[]>([]);
     const [preview, setPreview] = useState<string | null>(null);
     const [formErrors, setFormErrors] = useState<{ categoryId?: string }>({});
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [submitting, setSubmitting] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -45,7 +50,7 @@ function AddDrinkPage() {
 
                 // Устанавливаем первую группу по умолчанию, если группы загружены
                 if (data.length > 0) {
-                    setDrinkData(prev => ({ ...prev, groupId: data[0].id }));
+                    setDrinkData(prev => ({ ...prev, categoryId: data[0].id }));
                 }
             } catch (err) {
                 setError(err instanceof Error ? err.message : "Непонятно что произошло в БД с категориями");
@@ -70,7 +75,11 @@ function AddDrinkPage() {
     };
 
     const validateForm = (): boolean => {
-        const errors: { categoryId?: string } = {};
+        const errors: { [key: string]: string } = {};
+
+        if (!drinkData.name.trim()) {
+            errors.name = 'Название обязательно!';
+        }
 
         if (drinkData.categoryId === '') {
             errors.categoryId = 'Пожалуйста, выберите группу';
@@ -109,7 +118,7 @@ function AddDrinkPage() {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!validateForm()) {
@@ -119,29 +128,68 @@ function AddDrinkPage() {
             return;
         }
 
+        setSubmitting(true);
+        setError(null);
+
+        try {
+            // Создаем FormData для отправки файла
+            const formData = new FormData();
+            formData.append('name', drinkData.name);
+            formData.append('description', drinkData.description);
+            formData.append('categoryId', drinkData.categoryId.toString());
+            /*if (drinkData.photo) {
+                formData.append('photo', drinkData.avatar); // пока без отправки фото, надо переделать сервис
+            }*/
+            formData.append('picturePath', '');
+            formData.append('userId', drinkData.userId.toString());
+            drinkData.tagsIds.forEach((num, index) => {
+                formData.append(`tagsIds[${index}]`, num.toString());
+            });
+
+            const response = await fetch("/api/Drinks/Create", {
+                method: 'POST',
+                body: formData,
+                // headers НЕ нужны для FormData - браузер сам установит multipart/form-data
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+
+                // Если это массив, берем первый элемент
+                if (Array.isArray(errorData) && errorData.length > 0) {
+                    const firstError = errorData[0];
+                    throw new Error(firstError.message || firstError.Message || `Что-то пошло не так :с`);
+                } else {
+                    // Если это объект, работаем как обычно
+                    throw new Error(errorData.message || errorData.Message || `Что-то пошло не так :с`);
+                }
+            }
+
+            // Сброс формы
+            setDrinkData({
+                name: '',
+                description: '',
+                photo: null,
+                categoryId: '',
+                userId: 1,
+                tagsIds: []
+            });
+
+            setPreview(null);
+            setFormErrors({});
+
+            alert('Напиток добавлен!');
+
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Неизвестная ошибка при отправке');
+        } finally {
+            setSubmitting(false);
+        }
+
         // Здесь будет логика отправки данных
         console.log('Данные о напитке:', drinkData);
 
-        // Можно добавить отправку на сервер
-        // const formData = new FormData();
-        // formData.append('login', userData.login);
-        // formData.append('description', userData.description);
-        // formData.append('group', userData.group);
-        // if (userData.avatar) {
-        //   formData.append('avatar', userData.avatar);
-        // }
 
-        alert('Напиток добавлен!');
-
-        // Сброс формы
-        setDrinkData({
-            name: '',
-            description: '',
-            photo: null,
-            categoryId: ''
-        });
-        setPreview(null);
-        setFormErrors({});
     };
 
     return (
@@ -243,7 +291,7 @@ function AddDrinkPage() {
                             className="submit-btn"
                             disabled={loading || categories.length === 0}
                         >
-                            Добавить напиток
+                            {submitting ? 'Отправка...' : 'Добавить Напиток'}
                         </button>
                     </form>
                 </div>
