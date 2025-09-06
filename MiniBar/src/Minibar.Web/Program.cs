@@ -1,4 +1,5 @@
-﻿using Minibar.Web;
+﻿using Microsoft.Extensions.FileProviders;
+using Minibar.Web;
 using Minibar.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,13 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "Minibar"));
+    app.UseCors("AllowReactApp");
+
+    // Serving static files
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(builder.Configuration["PhotoUploads:ReactUploads"]), // здесь именно физический путь из конфига
+    });
 }
 
 // app.UseHttpsRedirection();

@@ -137,10 +137,9 @@ function AddDrinkPage() {
             formData.append('name', drinkData.name);
             formData.append('description', drinkData.description);
             formData.append('categoryId', drinkData.categoryId.toString());
-            /*if (drinkData.photo) {
-                formData.append('photo', drinkData.avatar); // пока без отправки фото, надо переделать сервис
-            }*/
-            formData.append('picturePath', '');
+            if (drinkData.photo) {
+                formData.append('photo', drinkData.photo);
+            }
             formData.append('userId', drinkData.userId.toString());
             drinkData.tagsIds.forEach((num, index) => {
                 formData.append(`tagsIds[${index}]`, num.toString());

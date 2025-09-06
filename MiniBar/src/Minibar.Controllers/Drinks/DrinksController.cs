@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Minibar.Application.Drinks;
 using Minibar.Contracts.Drinks;
 using Minibar.Controllers.ResponceExtensions;

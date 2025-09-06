@@ -12,7 +12,6 @@ namespace Minibar.Application.Drinks
                 .MaximumLength(50).WithMessage("Пустой или длинный (50) заголовок");
 
             RuleFor(x => x.Description)
-                .NotEmpty().WithMessage("Описание напитка должно быть заполнено!")
                 .MaximumLength(500).WithMessage("Пустое или длинное (500) описание");
 
             RuleFor(x => x.UserId)

@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Minibar.Application.Categories;
 using Minibar.Application.Drinks.Failures;
@@ -15,17 +16,20 @@ namespace Minibar.Application.Drinks
         private readonly IDrinksRepository _drinksRepository;
         private readonly ICategoriesRepository _categoriesRepository;
         private readonly IValidator<CreateDrinkDTO> _validator;
+        private readonly string _reactUploadsPath;
         private readonly ILogger<DrinksService> _logger;
 
         public DrinksService(
             IDrinksRepository drinksRepository,
             ICategoriesRepository categoriesRepository,
             IValidator<CreateDrinkDTO> validator,
+            IConfiguration config,
             ILogger<DrinksService> logger)
         {
             _drinksRepository = drinksRepository;
             _categoriesRepository = categoriesRepository;
             _validator = validator;
+            _reactUploadsPath = config["PhotoUploads:ReactUploads"]; // appsettings
             _logger = logger;
         }
 
@@ -77,11 +81,43 @@ namespace Minibar.Application.Drinks
                 // throw new DrinkAlreadyExistException([Errors.Drinks.DrinkAlreadyExist()]);
             }
 
+            string picturePath = null;
+
+            // если фото передали
+            if (drinkDTO.Photo != null && drinkDTO.Photo.Length > 0)
+            {
+                if (drinkDTO.Photo.Length > 5 * 1024 * 1024) // 5 MB
+                {
+                    return Errors.Drinks.IncorrectPhotoSize().ToFailure();
+                }
+
+                string[] allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                string fileExtension = Path.GetExtension(drinkDTO.Photo.FileName).ToLower();
+
+                if (!allowedExtensions.Contains(fileExtension))
+                {
+                    return Errors.Drinks.IncorrectPhotoExtension().ToFailure();
+                }
+
+                var uploadPath = _reactUploadsPath;
+
+                var photoName = $"{drinkDTO.Name}{fileExtension}";
+                // Получить только имя последней папки
+                string lastFolderName = new DirectoryInfo(uploadPath).Name;
+
+                picturePath = Path.Combine(lastFolderName, photoName);
+
+                using (var stream = new FileStream(Path.Combine(uploadPath, photoName), FileMode.Create))
+                {
+                    await drinkDTO.Photo.CopyToAsync(stream);
+                }
+            }
+
             // Создать сущность Drink
             var drink = new Drink(
                 drinkDTO.Name,
                 drinkDTO.Description,
-                drinkDTO.PicturePath,
+                picturePath,
                 drinkDTO.UserId,
                 drinkDTO.CategoryId,
                 drinkDTO.TagsIds);
