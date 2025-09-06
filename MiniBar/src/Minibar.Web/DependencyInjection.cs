@@ -35,12 +35,12 @@ namespace Minibar.Web
             // Чтоб запросы с морды могли прийти
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll", policy =>
-                {
-                    policy.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-                });
+                options.AddPolicy(
+                    "AllowReactApp",
+                    builder => builder
+                        .WithOrigins("http://localhost:5173") // React dev сервак
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
             });
 
             return services;

@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using Minibar.Contracts.Drinks;
-using Minibar.Contracts.Users;
 using Minibar.Entities.Drinks;
 using Shared;
 
